@@ -1,6 +1,7 @@
 (() => {
   const assets = {
     victim: 'assets/adrian-blackwood.webp',
+    crimeScene: 'assets/scenes/crime-scene.webp',
     suspects: {
       'Eleanor Blackwood': 'assets/eleanor-blackwood.webp',
       'Daniel Blackwood': 'assets/daniel-blackwood.webp',
@@ -31,6 +32,15 @@
     if (className) image.className = className;
     return image;
   };
+
+  function enhanceCrimeScene() {
+    const scene = document.querySelector('.study-room');
+    if (!scene || scene.classList.contains('crime-art-loaded')) return;
+    const image = makeImage(assets.crimeScene, 'Blackwood study crime scene with evidence markers 1, 2 and 3', 'crime-scene-art');
+    if (!image) return;
+    scene.prepend(image);
+    scene.classList.add('crime-art-loaded');
+  }
 
   function enhanceVictim() {
     const portrait = document.querySelector('.victim-portrait');
@@ -92,6 +102,7 @@
   }
 
   function enhanceAll() {
+    enhanceCrimeScene();
     enhanceVictim();
     enhanceSuspects();
     enhanceEvidence();
