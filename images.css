@@ -1,0 +1,13 @@
+/* Cinematic artwork layer */
+.victim-portrait.art-loaded{padding:0;overflow:hidden;filter:none;background:#0d1015}
+.victim-portrait.art-loaded img{width:100%;height:100%;object-fit:cover;object-position:center 18%;display:block}
+.suspect-portrait.art-loaded{padding:0;overflow:hidden;font-size:0;background:#0d1015}
+.suspect-portrait.art-loaded img{width:100%;height:100%;object-fit:cover;object-position:center 18%;display:block;transition:transform .45s ease,filter .3s ease}
+.suspect-card:hover .suspect-portrait.art-loaded img{transform:scale(1.035)}
+.suspect-portrait.art-loaded:after{z-index:1;background:linear-gradient(transparent 48%,#11151c 100%)}
+.evidence-thumb-art{width:calc(100% + 32px);height:145px;margin:-16px -16px 14px;object-fit:cover;display:block;border-bottom:1px solid var(--line);filter:saturate(.78) contrast(1.05);border-radius:15px 15px 0 0}
+.evidence-card:hover .evidence-thumb-art{filter:saturate(.96) contrast(1.05)}
+.report-photo-art{width:calc(100% + 56px);height:125px;object-fit:cover;margin:16px -28px 18px;display:block;border-top:1px solid rgba(55,48,39,.16);border-bottom:1px solid rgba(55,48,39,.16);filter:sepia(.1) saturate(.72) contrast(.96)}
+.modal-art{width:100%;max-height:310px;object-fit:cover;border-radius:13px;margin:0 0 18px;border:1px solid var(--line);display:block}
+.modal-suspect-art{width:150px;height:190px;object-fit:cover;object-position:center 18%;float:left;margin:0 20px 12px 0;border-radius:12px;border:1px solid var(--line)}
+@media(max-width:620px){.modal-suspect-art{width:100%;height:280px;float:none;margin:0 0 18px}.evidence-thumb-art{height:190px}}
