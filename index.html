@@ -19,306 +19,38 @@
           <h1>CASEFILE</h1>
         </div>
       </div>
-
-      <div class="case-meta">
-        <span>CASE 24-117</span>
-        <span class="status-dot"><i></i> ACTIVE</span>
-      </div>
-
-      <div class="progress-card">
-        <div class="progress-top">
-          <span>Investigation progress</span>
-          <strong id="progressPercent">0%</strong>
-        </div>
-        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-        <p id="phaseLabel">Phase 1 — The Crime</p>
-      </div>
-
+      <div class="case-meta"><span>CASE 24-117</span><span class="status-dot"><i></i> ACTIVE</span></div>
+      <div class="progress-card"><div class="progress-top"><span>Investigation progress</span><strong id="progressPercent">0%</strong></div><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div><p id="phaseLabel">Phase 1 — The Crime</p></div>
       <nav class="case-nav" aria-label="Case sections">
-        <button data-view="briefing" class="nav-item active"><span>01</span> Briefing</button>
-        <button data-view="scene" class="nav-item"><span>02</span> Crime Scene</button>
-        <button data-view="mansion" class="nav-item"><span>03</span> Mansion</button>
-        <button data-view="suspects" class="nav-item"><span>04</span> Suspects</button>
-        <button data-view="evidence" class="nav-item"><span>05</span> Evidence</button>
-        <button data-view="reports" class="nav-item locked"><span>06</span> Reports <b>LOCKED</b></button>
-        <button data-view="board" class="nav-item locked"><span>07</span> Evidence Board <b>LOCKED</b></button>
-        <button data-view="timeline" class="nav-item locked"><span>08</span> Timeline <b>LOCKED</b></button>
-        <button data-view="accuse" class="nav-item locked"><span>09</span> Accusation <b>LOCKED</b></button>
+        <button data-view="briefing" class="nav-item active"><span>01</span> Briefing</button><button data-view="scene" class="nav-item"><span>02</span> Crime Scene</button><button data-view="mansion" class="nav-item"><span>03</span> Mansion</button><button data-view="suspects" class="nav-item"><span>04</span> Suspects</button><button data-view="evidence" class="nav-item"><span>05</span> Evidence</button><button data-view="reports" class="nav-item locked"><span>06</span> Reports <b>LOCKED</b></button><button data-view="board" class="nav-item locked"><span>07</span> Evidence Board <b>LOCKED</b></button><button data-view="timeline" class="nav-item locked"><span>08</span> Timeline <b>LOCKED</b></button><button data-view="accuse" class="nav-item locked"><span>09</span> Accusation <b>LOCKED</b></button>
       </nav>
-
-      <div class="sidebar-footer">
-        <button id="hintBtn" class="ghost-btn">Consult Detective <span id="hintCount">3</span></button>
-        <button id="resetBtn" class="text-btn">Reset case</button>
-      </div>
+      <div class="sidebar-footer"><button id="hintBtn" class="ghost-btn">Consult Detective <span id="hintCount">3</span></button><button id="resetBtn" class="text-btn">Reset case</button></div>
     </aside>
-
     <main class="main">
-      <header class="topbar">
-        <button id="menuBtn" class="menu-btn" aria-label="Toggle navigation">☰</button>
-        <div>
-          <p class="eyebrow">BLACKWOOD MANOR · OCTOBER 17 · 11:47 PM</p>
-          <h2 id="viewTitle">The Last Toast</h2>
-        </div>
-        <div class="case-stats">
-          <span><b id="clueCount">0</b>/<small id="clueTotal">0</small> clues</span>
-          <span><b id="contradictionCount">0</b>/3 contradictions</span>
-          <button class="icon-btn" id="notesBtn" aria-label="Open case notes">✎</button>
-        </div>
-      </header>
-
-      <section id="notification" class="notification hidden" role="status">
-        <div class="notification-icon">!</div>
-        <div>
-          <strong id="notificationTitle">New evidence</strong>
-          <p id="notificationText"></p>
-        </div>
-        <button id="notificationClose" aria-label="Dismiss">×</button>
-      </section>
-
+      <header class="topbar"><button id="menuBtn" class="menu-btn" aria-label="Toggle navigation">☰</button><div><p class="eyebrow">BLACKWOOD MANOR · OCTOBER 17 · 11:47 PM</p><h2 id="viewTitle">The Last Toast</h2></div><div class="case-stats"><span><b id="clueCount">0</b>/<small id="clueTotal">0</small> clues</span><span><b id="contradictionCount">0</b>/3 contradictions</span><button class="icon-btn" id="notesBtn" aria-label="Open case notes">✎</button></div></header>
+      <section id="notification" class="notification hidden" role="status"><div class="notification-icon">!</div><div><strong id="notificationTitle">New evidence</strong><p id="notificationText"></p></div><button id="notificationClose" aria-label="Dismiss">×</button></section>
       <div class="views">
-
         <section class="view active" id="view-briefing">
-          <div class="hero">
-            <div class="hero-image">
-              <div class="mansion-silhouette">
-                <div class="moon"></div>
-                <div class="house">
-                  <div class="roof"></div>
-                  <div class="chimney"></div>
-                  <div class="window w1"></div><div class="window w2"></div>
-                  <div class="window w3"></div><div class="window w4"></div>
-                  <div class="door"></div>
-                </div>
-                <div class="fog fog-1"></div><div class="fog fog-2"></div>
-              </div>
-              <div class="hero-overlay"></div>
-              <div class="hero-copy">
-                <p class="eyebrow">A PRIVATE DINNER. FIVE GUESTS. ONE DEAD HOST.</p>
-                <h3>THE LAST<br/>TOAST</h3>
-                <p>Adrian Blackwood was found dead inside his locked study at 11:47 PM. Everyone in the manor had a reason to lie.</p>
-                <button class="primary-btn" data-jump="scene">Begin investigation <span>→</span></button>
-              </div>
-            </div>
-          </div>
-
-          <div class="dashboard-grid">
-            <article class="panel objective-panel">
-              <div class="panel-head">
-                <div>
-                  <p class="eyebrow">CURRENT OBJECTIVE</p>
-                  <h3 id="objectiveTitle">Secure the crime scene</h3>
-                </div>
-                <span class="phase-chip" id="objectivePhase">PHASE 1</span>
-              </div>
-              <p id="objectiveText">Inspect the victim, the whiskey glass, and the desk before leaving the study.</p>
-              <div id="objectiveChecklist" class="checklist"></div>
-            </article>
-
-            <article class="panel victim-card">
-              <div class="victim-portrait">AB</div>
-              <div>
-                <p class="eyebrow">VICTIM</p>
-                <h3>Adrian Blackwood</h3>
-                <p>58 · Founder, Blackwood Capital</p>
-                <div class="mini-tags"><span>Study</span><span>11:47 PM</span><span>Suspicious death</span></div>
-              </div>
-            </article>
-
-            <article class="panel activity-panel">
-              <div class="panel-head"><div><p class="eyebrow">CASE ACTIVITY</p><h3>Investigation log</h3></div></div>
-              <div id="activityLog" class="activity-log"></div>
-            </article>
-          </div>
+          <div class="hero"><div class="hero-image"><div class="mansion-silhouette"><div class="moon"></div><div class="house"><div class="roof"></div><div class="chimney"></div><div class="window w1"></div><div class="window w2"></div><div class="window w3"></div><div class="window w4"></div><div class="door"></div></div><div class="fog fog-1"></div><div class="fog fog-2"></div></div><div class="hero-overlay"></div><div class="hero-copy"><p class="eyebrow">A PRIVATE DINNER. FIVE GUESTS. ONE DEAD HOST.</p><h3>THE LAST<br/>TOAST</h3><p>Adrian Blackwood was found dead inside his locked study at 11:47 PM. Everyone in the manor had a reason to lie.</p><button class="primary-btn" data-jump="scene">Begin investigation <span>→</span></button></div></div></div>
+          <div class="dashboard-grid"><article class="panel objective-panel"><div class="panel-head"><div><p class="eyebrow">CURRENT OBJECTIVE</p><h3 id="objectiveTitle">Secure the crime scene</h3></div><span class="phase-chip" id="objectivePhase">PHASE 1</span></div><p id="objectiveText">Inspect the victim, the whiskey glass, and the desk before leaving the study.</p><div id="objectiveChecklist" class="checklist"></div></article><article class="panel victim-card"><div class="victim-portrait">AB</div><div><p class="eyebrow">VICTIM</p><h3>Adrian Blackwood</h3><p>58 · Founder, Blackwood Capital</p><div class="mini-tags"><span>Study</span><span>11:47 PM</span><span>Suspicious death</span></div></div></article><article class="panel activity-panel"><div class="panel-head"><div><p class="eyebrow">CASE ACTIVITY</p><h3>Investigation log</h3></div></div><div id="activityLog" class="activity-log"></div></article></div>
         </section>
-
-        <section class="view" id="view-scene">
-          <div class="section-intro">
-            <div><p class="eyebrow">PHASE 1 · THE CRIME</p><h3>Adrian's Study</h3></div>
-            <p>The room is orderly except for three details that do not belong. Examine each carefully.</p>
-          </div>
-          <div class="scene-layout">
-            <div class="scene-art">
-              <div class="study-room">
-                <div class="desk-shape"></div>
-                <div class="lamp-shape"></div>
-                <div class="body-outline"></div>
-                <button class="hotspot hs-body" data-scene="body"><span>01</span><em>Victim</em></button>
-                <button class="hotspot hs-glass" data-scene="glass"><span>02</span><em>Whiskey glass</em></button>
-                <button class="hotspot hs-desk" data-scene="desk"><span>03</span><em>Desk</em></button>
-              </div>
-            </div>
-            <aside class="scene-sidebar panel">
-              <p class="eyebrow">SCENE OBJECTIVES</p>
-              <h3>Initial examination</h3>
-              <div id="sceneChecklist" class="checklist"></div>
-              <div class="divider"></div>
-              <p class="muted">Every inspected point adds a permanent evidence card to your case file.</p>
-            </aside>
-          </div>
-        </section>
-
-        <section class="view" id="view-mansion">
-          <div class="section-intro">
-            <div><p class="eyebrow">PHASE 2 · FIRST SWEEP</p><h3>Search Blackwood Manor</h3></div>
-            <p>Search rooms for records, objects, and traces the guests may have overlooked.</p>
-          </div>
-          <div id="roomGrid" class="room-grid"></div>
-        </section>
-
-        <section class="view" id="view-suspects">
-          <div class="section-intro">
-            <div><p class="eyebrow">PHASE 3 · INTERVIEWS</p><h3>Five people. Five stories.</h3></div>
-            <p>Interview each person. New questions appear when your evidence contradicts their statements.</p>
-          </div>
-          <div id="suspectGrid" class="suspect-grid"></div>
-        </section>
-
-        <section class="view" id="view-evidence">
-          <div class="section-intro">
-            <div><p class="eyebrow">CASE ARCHIVE</p><h3>Evidence Locker</h3></div>
-            <p>Everything you collect is preserved here. Evidence marked critical can support your final accusation.</p>
-          </div>
-          <div class="evidence-toolbar">
-            <button class="filter active" data-filter="all">All</button>
-            <button class="filter" data-filter="physical">Physical</button>
-            <button class="filter" data-filter="digital">Digital</button>
-            <button class="filter" data-filter="document">Documents</button>
-            <button class="filter" data-filter="forensic">Forensic</button>
-          </div>
-          <div id="evidenceGrid" class="evidence-grid"></div>
-        </section>
-
-        <section class="view" id="view-reports">
-          <div class="section-intro">
-            <div><p class="eyebrow">PHASE 4 · EVIDENCE ANALYSIS</p><h3>Forensic Reports</h3></div>
-            <p>The lab changes the case. Read the documents closely; one apparent clue was staged.</p>
-          </div>
-          <div id="reportGrid" class="report-grid"></div>
-        </section>
-
-        <section class="view" id="view-board">
-          <div class="section-intro">
-            <div><p class="eyebrow">PHASE 5 · CONNECT THE CLUES</p><h3>Evidence Board</h3></div>
-            <p>Select evidence cards that belong together, then test your deduction.</p>
-          </div>
-          <div class="board-layout">
-            <div>
-              <div class="board-instructions panel">
-                <strong>How it works</strong>
-                <p>Select up to three clues. Correct combinations unlock deductions and move the case forward.</p>
-              </div>
-              <div id="boardEvidence" class="board-evidence"></div>
-            </div>
-            <aside class="deduction-panel panel">
-              <p class="eyebrow">YOUR CONNECTION</p>
-              <div id="boardSelection" class="selection-slots"></div>
-              <button id="testDeductionBtn" class="primary-btn full">Test deduction</button>
-              <div class="divider"></div>
-              <p class="eyebrow">DEDUCTIONS</p>
-              <div id="deductionList" class="deduction-list"></div>
-            </aside>
-          </div>
-        </section>
-
-        <section class="view" id="view-timeline">
-          <div class="section-intro">
-            <div><p class="eyebrow">PHASE 6 · RECONSTRUCT THE NIGHT</p><h3>What happened between 9:15 and 11:47?</h3></div>
-            <p>Drag the events into chronological order. On mobile, use the arrow controls.</p>
-          </div>
-          <div class="timeline-wrap">
-            <div id="timelineList" class="timeline-list"></div>
-            <div class="timeline-actions">
-              <button id="shuffleTimelineBtn" class="ghost-btn">Shuffle</button>
-              <button id="checkTimelineBtn" class="primary-btn">Check timeline</button>
-            </div>
-            <div id="timelineResult" class="timeline-result"></div>
-          </div>
-        </section>
-
-        <section class="view" id="view-accuse">
-          <div class="section-intro">
-            <div><p class="eyebrow">FINAL PHASE</p><h3>Build Your Case</h3></div>
-            <p>Name the killer, identify the motive and method, then support your accusation with evidence.</p>
-          </div>
-
-          <div class="accuse-grid">
-            <form class="accuse-form panel" id="accuseForm">
-              <label>
-                <span>Who killed Adrian Blackwood?</span>
-                <select id="accusedSelect" required>
-                  <option value="">Choose a suspect</option>
-                </select>
-              </label>
-              <label>
-                <span>What was the motive?</span>
-                <select id="motiveSelect" required>
-                  <option value="">Choose a motive</option>
-                  <option value="inheritance">Inheritance dispute</option>
-                  <option value="blackmail">Personal blackmail</option>
-                  <option value="embezzlement">Hide financial embezzlement</option>
-                  <option value="revenge">Revenge for an old betrayal</option>
-                </select>
-              </label>
-              <label>
-                <span>How was he killed?</span>
-                <select id="methodSelect" required>
-                  <option value="">Choose a method</option>
-                  <option value="blade">Letter opener attack</option>
-                  <option value="toxin">Toxic agent introduced into his whiskey</option>
-                  <option value="medication">Medication mix-up</option>
-                  <option value="fall">Fatal fall staged in the study</option>
-                </select>
-              </label>
-
-              <fieldset>
-                <legend>Select three supporting clues</legend>
-                <div id="accusationEvidence" class="accusation-evidence"></div>
-              </fieldset>
-
-              <button class="danger-btn full" type="submit">Lock accusation</button>
-            </form>
-
-            <aside class="readiness panel">
-              <p class="eyebrow">CASE READINESS</p>
-              <div id="readinessRows"></div>
-              <div class="readiness-score">
-                <strong id="readinessScore">0%</strong>
-                <span>Ready to accuse</span>
-              </div>
-            </aside>
-          </div>
-        </section>
-
+        <section class="view" id="view-scene"><div class="section-intro"><div><p class="eyebrow">PHASE 1 · THE CRIME</p><h3>Adrian's Study</h3></div><p>The room is orderly except for three details that do not belong. Examine each carefully.</p></div><div class="scene-layout"><div class="scene-art"><div class="study-room"><div class="desk-shape"></div><div class="lamp-shape"></div><div class="body-outline"></div><button class="hotspot hs-body" data-scene="body"><span>01</span><em>Victim</em></button><button class="hotspot hs-glass" data-scene="glass"><span>02</span><em>Whiskey glass</em></button><button class="hotspot hs-desk" data-scene="desk"><span>03</span><em>Desk</em></button></div></div><aside class="scene-sidebar panel"><p class="eyebrow">SCENE OBJECTIVES</p><h3>Initial examination</h3><div id="sceneChecklist" class="checklist"></div><div class="divider"></div><p class="muted">Every inspected point adds a permanent evidence card to your case file.</p></aside></div></section>
+        <section class="view" id="view-mansion"><div class="section-intro"><div><p class="eyebrow">PHASE 2 · FIRST SWEEP</p><h3>Search Blackwood Manor</h3></div><p>Search rooms for records, objects, and traces the guests may have overlooked.</p></div><div id="roomGrid" class="room-grid"></div></section>
+        <section class="view" id="view-suspects"><div class="section-intro"><div><p class="eyebrow">PHASE 3 · INTERVIEWS</p><h3>Five people. Five stories.</h3></div><p>Interview each person. New questions appear when your evidence contradicts their statements.</p></div><div id="suspectGrid" class="suspect-grid"></div></section>
+        <section class="view" id="view-evidence"><div class="section-intro"><div><p class="eyebrow">CASE ARCHIVE</p><h3>Evidence Locker</h3></div><p>Everything you collect is preserved here. Evidence marked critical can support your final accusation.</p></div><div class="evidence-toolbar"><button class="filter active" data-filter="all">All</button><button class="filter" data-filter="physical">Physical</button><button class="filter" data-filter="digital">Digital</button><button class="filter" data-filter="document">Documents</button><button class="filter" data-filter="forensic">Forensic</button></div><div id="evidenceGrid" class="evidence-grid"></div></section>
+        <section class="view" id="view-reports"><div class="section-intro"><div><p class="eyebrow">PHASE 4 · EVIDENCE ANALYSIS</p><h3>Forensic Reports</h3></div><p>The lab changes the case. Read the documents closely; one apparent clue was staged.</p></div><div id="reportGrid" class="report-grid"></div></section>
+        <section class="view" id="view-board"><div class="section-intro"><div><p class="eyebrow">PHASE 5 · CONNECT THE CLUES</p><h3>Evidence Board</h3></div><p>Select evidence cards that belong together, then test your deduction.</p></div><div class="board-layout"><div><div class="board-instructions panel"><strong>How it works</strong><p>Select up to three clues. Correct combinations unlock deductions and move the case forward.</p></div><div id="boardEvidence" class="board-evidence"></div></div><aside class="deduction-panel panel"><p class="eyebrow">YOUR CONNECTION</p><div id="boardSelection" class="selection-slots"></div><button id="testDeductionBtn" class="primary-btn full">Test deduction</button><div class="divider"></div><p class="eyebrow">DEDUCTIONS</p><div id="deductionList" class="deduction-list"></div></aside></div></section>
+        <section class="view" id="view-timeline"><div class="section-intro"><div><p class="eyebrow">PHASE 6 · RECONSTRUCT THE NIGHT</p><h3>What happened between 9:15 and 11:47?</h3></div><p>Drag the events into chronological order. On mobile, use the arrow controls.</p></div><div class="timeline-wrap"><div id="timelineList" class="timeline-list"></div><div class="timeline-actions"><button id="shuffleTimelineBtn" class="ghost-btn">Shuffle</button><button id="checkTimelineBtn" class="primary-btn">Check timeline</button></div><div id="timelineResult" class="timeline-result"></div></div></section>
+        <section class="view" id="view-accuse"><div class="section-intro"><div><p class="eyebrow">FINAL PHASE</p><h3>Build Your Case</h3></div><p>Name the killer, identify the motive and method, then support your accusation with evidence.</p></div><div class="accuse-grid"><form class="accuse-form panel" id="accuseForm"><label><span>Who killed Adrian Blackwood?</span><select id="accusedSelect" required><option value="">Choose a suspect</option></select></label><label><span>What was the motive?</span><select id="motiveSelect" required><option value="">Choose a motive</option><option value="inheritance">Inheritance dispute</option><option value="blackmail">Personal blackmail</option><option value="embezzlement">Hide financial embezzlement</option><option value="revenge">Revenge for an old betrayal</option></select></label><label><span>How was he killed?</span><select id="methodSelect" required><option value="">Choose a method</option><option value="blade">Letter opener attack</option><option value="toxin">Toxic agent introduced into his whiskey</option><option value="medication">Medication mix-up</option><option value="fall">Fatal fall staged in the study</option></select></label><fieldset><legend>Select three supporting clues</legend><div id="accusationEvidence" class="accusation-evidence"></div></fieldset><button class="danger-btn full" type="submit">Lock accusation</button></form><aside class="readiness panel"><p class="eyebrow">CASE READINESS</p><div id="readinessRows"></div><div class="readiness-score"><strong id="readinessScore">0%</strong><span>Ready to accuse</span></div></aside></div></section>
       </div>
     </main>
   </div>
-
-  <dialog id="modal" class="modal">
-    <button class="modal-close" id="modalClose" aria-label="Close">×</button>
-    <div id="modalContent"></div>
-  </dialog>
-
-  <dialog id="notesModal" class="modal notes-modal">
-    <button class="modal-close" id="notesClose" aria-label="Close">×</button>
-    <div>
-      <p class="eyebrow">PRIVATE NOTEBOOK</p>
-      <h3>Detective Notes</h3>
-      <p class="muted">Autosaved on this device.</p>
-      <textarea id="caseNotes" placeholder="What feels wrong? Who benefits? Which alibi doesn't fit?"></textarea>
-    </div>
-  </dialog>
-
-  <dialog id="revealModal" class="reveal-modal">
-    <div class="reveal-inner">
-      <p class="eyebrow">CASE 24-117 · FINAL RECONSTRUCTION</p>
-      <h2 id="revealHeadline">The truth about the last toast</h2>
-      <div id="revealSteps" class="reveal-steps"></div>
-      <div id="revealVerdict" class="reveal-verdict hidden"></div>
-      <button id="revealNextBtn" class="primary-btn">Reveal next event</button>
-      <button id="revealCloseBtn" class="ghost-btn hidden">Return to case file</button>
-    </div>
-  </dialog>
-
+  <dialog id="modal" class="modal"><button class="modal-close" id="modalClose" aria-label="Close">×</button><div id="modalContent"></div></dialog>
+  <dialog id="notesModal" class="modal notes-modal"><button class="modal-close" id="notesClose" aria-label="Close">×</button><div><p class="eyebrow">PRIVATE NOTEBOOK</p><h3>Detective Notes</h3><p class="muted">Autosaved on this device.</p><textarea id="caseNotes" placeholder="What feels wrong? Who benefits? Which alibi doesn't fit?"></textarea></div></dialog>
+  <dialog id="revealModal" class="reveal-modal"><div class="reveal-inner"><p class="eyebrow">CASE 24-117 · FINAL RECONSTRUCTION</p><h2 id="revealHeadline">The truth about the last toast</h2><div id="revealSteps" class="reveal-steps"></div><div id="revealVerdict" class="reveal-verdict hidden"></div><button id="revealNextBtn" class="primary-btn">Reveal next event</button><button id="revealCloseBtn" class="ghost-btn hidden">Return to case file</button></div></dialog>
   <script src="app.js"></script>
+  <script src="app-ui.js"></script>
+  <script src="app-investigation.js"></script>
+  <script src="app-final.js"></script>
 </body>
 </html>
