@@ -10,4 +10,23 @@
 .report-photo-art{width:calc(100% + 56px);height:125px;object-fit:cover;margin:16px -28px 18px;display:block;border-top:1px solid rgba(55,48,39,.16);border-bottom:1px solid rgba(55,48,39,.16);filter:sepia(.1) saturate(.72) contrast(.96)}
 .modal-art{width:100%;max-height:310px;object-fit:cover;border-radius:13px;margin:0 0 18px;border:1px solid var(--line);display:block}
 .modal-suspect-art{width:150px;height:190px;object-fit:cover;object-position:center 18%;float:left;margin:0 20px 12px 0;border-radius:12px;border:1px solid var(--line)}
-@media(max-width:620px){.modal-suspect-art{width:100%;height:280px;float:none;margin:0 0 18px}.evidence-thumb-art{height:190px}}
+
+/* Generated Blackwood study crime scene */
+.study-room.crime-art-loaded{overflow:hidden;background:#090b0e;min-height:520px}
+.study-room.crime-art-loaded .crime-scene-art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;z-index:0;filter:contrast(1.05) saturate(.92)}
+.study-room.crime-art-loaded:after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(4,6,9,.04),rgba(4,6,9,.18) 72%,rgba(4,6,9,.34))}
+.study-room.crime-art-loaded .desk-shape,.study-room.crime-art-loaded .lamp-shape,.study-room.crime-art-loaded .body-outline{display:none}
+.study-room.crime-art-loaded .hotspot{z-index:3;background:rgba(224,177,73,.95);border-color:#fff0b4;color:#12100a;box-shadow:0 0 0 5px rgba(224,177,73,.18),0 0 28px rgba(224,177,73,.6)}
+.study-room.crime-art-loaded .hs-glass{left:18%;bottom:54%}
+.study-room.crime-art-loaded .hs-body{left:63%;bottom:40%}
+.study-room.crime-art-loaded .hs-desk{left:87%;bottom:55%}
+
+@media(max-width:620px){
+  .modal-suspect-art{width:100%;height:280px;float:none;margin:0 0 18px}
+  .evidence-thumb-art{height:190px}
+  .study-room.crime-art-loaded{min-height:360px}
+  .study-room.crime-art-loaded .crime-scene-art{object-position:center top}
+  .study-room.crime-art-loaded .hs-glass{left:18%;bottom:54%}
+  .study-room.crime-art-loaded .hs-body{left:63%;bottom:40%}
+  .study-room.crime-art-loaded .hs-desk{left:87%;bottom:55%}
+}
