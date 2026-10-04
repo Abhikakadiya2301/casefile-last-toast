@@ -13,14 +13,26 @@ $$("[data-scene]").forEach(btn=>btn.onclick=()=>{
 });
 
 function renderRooms(){
+  const roomImages={
+    dining:"assets/Dinning room.png",
+    billiard:"assets/Billiard Room.png",
+    conservatory:"assets/moonlit_conservatory_mystery.png",
+    security:"assets/Security Office.png",
+    library:"assets/image-gen-6(1).png",
+    guest:"assets/Mansion Lounge Mystery Crime Scene.png"
+  };
   $("#roomGrid").innerHTML=DATA.rooms.map(r=>`
     <article class="room-card ${state.roomsSearched.includes(r.id)?"searched":""}">
+      <img class="room-photo" src="${roomImages[r.id]}" alt="${r.name} investigation scene" loading="lazy" decoding="async">
+      <div class="room-photo-shade"></div>
       <span class="room-number">${r.number}</span>
-      <h3>${r.name}</h3>
-      <p>${r.desc}</p>
-      <button class="${state.roomsSearched.includes(r.id)?"ghost-btn":"primary-btn"} room-search" data-room="${r.id}">
-        ${state.roomsSearched.includes(r.id)?"Review clue":"Search room"}
-      </button>
+      <div class="room-card-content">
+        <h3>${r.name}</h3>
+        <p>${r.desc}</p>
+        <button class="${state.roomsSearched.includes(r.id)?"ghost-btn":"primary-btn"} room-search" data-room="${r.id}">
+          ${state.roomsSearched.includes(r.id)?"Review clue":"Search room"}
+        </button>
+      </div>
     </article>`).join("");
   $$(".room-search").forEach(btn=>btn.onclick=()=>{
     const r=DATA.rooms.find(x=>x.id===btn.dataset.room);
