@@ -12,18 +12,19 @@ $$("[data-scene]").forEach(btn=>btn.onclick=()=>{
   openEvidence(id);
 });
 
+const ROOM_IMAGES={
+  dining:"assets/Dinning room.png",
+  billiard:"assets/Billiard Room.png",
+  conservatory:"assets/moonlit_conservatory_mystery.png",
+  security:"assets/Security Office.png",
+  library:"assets/image-gen-6(1).png",
+  guest:"assets/Mansion Lounge Mystery Crime Scene.png"
+};
+
 function renderRooms(){
-  const roomImages={
-    dining:"assets/Dinning room.png",
-    billiard:"assets/Billiard Room.png",
-    conservatory:"assets/moonlit_conservatory_mystery.png",
-    security:"assets/Security Office.png",
-    library:"assets/image-gen-6(1).png",
-    guest:"assets/Mansion Lounge Mystery Crime Scene.png"
-  };
   $("#roomGrid").innerHTML=DATA.rooms.map(r=>`
     <article class="room-card ${state.roomsSearched.includes(r.id)?"searched":""}">
-      <img class="room-photo" src="${roomImages[r.id]}" alt="${r.name} investigation scene" loading="lazy" decoding="async">
+      <img class="room-photo" src="${ROOM_IMAGES[r.id]}" alt="${r.name} investigation scene" loading="lazy" decoding="async">
       <div class="room-photo-shade"></div>
       <span class="room-number">${r.number}</span>
       <div class="room-card-content">
@@ -42,7 +43,7 @@ function renderRooms(){
       showNotification("Room searched",`${r.name}: ${DATA.evidence[r.clue].summary}`);
       if(state.roomsSearched.length===3) showNotification("Interviews advised","You have enough context to begin testing the guests' stories.");
     }
-    openEvidence(r.clue);
+    openEvidence(r.clue,r.id);
     updateUI();
   });
 }
@@ -109,12 +110,16 @@ function renderEvidence(filter="all"){
 $$(".filter").forEach(f=>f.onclick=()=>{
   $$(".filter").forEach(x=>x.classList.remove("active"));f.classList.add("active");renderEvidence(f.dataset.filter);
 });
-function openEvidence(id){
+function openEvidence(id,roomId=null){
   const e=DATA.evidence[id];
-  $("#modalContent").innerHTML=`<div class="evidence-detail">
-    <div class="evidence-art">${e.icon}</div>
-    <div><p class="eyebrow">${e.type.toUpperCase()} EVIDENCE</p><h3>${e.title}</h3><p>${e.detail}</p>${e.critical?'<span class="phase-chip">CRITICAL EVIDENCE</span>':""}</div>
-  </div>`;
+  const room=roomId?DATA.rooms.find(r=>r.id===roomId):DATA.rooms.find(r=>r.clue===id);
+  const roomPhoto=room?ROOM_IMAGES[room.id]:null;
+  $("#modalContent").innerHTML=`
+    ${roomPhoto?`<div class="clue-scene-wrap"><img class="clue-scene-photo" src="${roomPhoto}" alt="${room.name} investigation scene"><span class="clue-scene-label">FOUND IN · ${room.name.toUpperCase()}</span></div>`:""}
+    <div class="evidence-detail">
+      <div class="evidence-art">${e.icon}</div>
+      <div><p class="eyebrow">${e.type.toUpperCase()} EVIDENCE</p><h3>${e.title}</h3><p>${e.detail}</p>${e.critical?'<span class="phase-chip">CRITICAL EVIDENCE</span>':""}</div>
+    </div>`;
   $("#modal").showModal();
   updateUI();
 }
