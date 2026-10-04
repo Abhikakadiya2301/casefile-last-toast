@@ -10,14 +10,7 @@
       'Thomas Reed': 'assets/Thomas Reed.png'
     },
     evidence: {
-      'Victim examination': 'assets/Adrian Blackwood.png',
-      'Whiskey glass': 'assets/evidence-whiskey.webp',
-      'Stopped pocket watch': 'assets/evidence-watch.webp',
-      'Torn envelope to Victor': 'assets/evidence-letter.webp',
-      'Private financial audit': 'assets/evidence-letter.webp',
-      "Adrian's final message": 'assets/evidence-letter.webp',
-      'Toxicology report': 'assets/evidence-whiskey.webp',
-      'Latent print report': 'assets/evidence-whiskey.webp'
+      'Victim examination': 'assets/Adrian Blackwood.png'
     }
   };
 
@@ -74,16 +67,6 @@
     });
   }
 
-  function enhanceReports() {
-    const reportImages = ['assets/evidence-whiskey.webp', 'assets/evidence-letter.webp', 'assets/evidence-whiskey.webp'];
-    document.querySelectorAll('.report-card').forEach((card, index) => {
-      if (card.querySelector('.report-photo-art')) return;
-      const heading = card.querySelector('h3');
-      const image = makeImage(reportImages[index % reportImages.length], heading?.textContent || 'Case report', 'report-photo-art');
-      if (image && heading) heading.insertAdjacentElement('afterend', image);
-    });
-  }
-
   function enhanceModal() {
     const modal = document.querySelector('#modalContent');
     if (!modal || modal.querySelector('.modal-art,.modal-suspect-art')) return;
@@ -106,7 +89,6 @@
     enhanceVictim();
     enhanceSuspects();
     enhanceEvidence();
-    enhanceReports();
     enhanceModal();
   }
 
