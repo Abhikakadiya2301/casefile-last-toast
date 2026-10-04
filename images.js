@@ -10,7 +10,19 @@
       'Thomas Reed': 'assets/Thomas Reed.png'
     },
     evidence: {
-      'Victim examination': 'assets/Adrian Blackwood.png'
+      'Victim examination': 'assets/Adrian Blackwood.png',
+      'Whiskey glass': 'assets/scenes/Mysterious Study Crime Scene Investigation.png',
+      'Stopped pocket watch': 'assets/scenes/Mysterious Study Crime Scene Investigation.png',
+      'Dinner photograph': 'assets/Dinning room.png',
+      "Daniel's call log": 'assets/Cinematic Call Log Investigation.png',
+      'Torn envelope to Victor': 'assets/moonlit_conservatory_mystery.png',
+      'East corridor access log': 'assets/Security Office.png',
+      'Private financial audit': 'assets/image-gen-6(1).png',
+      "Dr. Sen's medical bag": 'assets/Mansion Lounge Mystery Crime Scene.png',
+      'Security override record': 'assets/Security Office.png',
+      'Toxicology report': 'assets/scenes/Mysterious Study Crime Scene Investigation.png',
+      'Latent print report': 'assets/scenes/Mysterious Study Crime Scene Investigation.png',
+      "Adrian's final message": 'assets/Victor Hale.png'
     }
   };
 
@@ -60,9 +72,16 @@
 
   function enhanceEvidence() {
     document.querySelectorAll('.evidence-card').forEach(card => {
-      if (card.querySelector('.evidence-thumb-art')) return;
       const title = card.querySelector('h4')?.textContent.trim();
-      const image = makeImage(assets.evidence[title], title || 'Case evidence', 'evidence-thumb-art');
+      const src = assets.evidence[title];
+      if (!src) return;
+      const current = card.querySelector('.evidence-thumb-art');
+      if (current) {
+        if (!current.src.endsWith(encodeURI(src))) current.src = src;
+        current.alt = title || 'Case evidence';
+        return;
+      }
+      const image = makeImage(src, title || 'Case evidence', 'evidence-thumb-art');
       if (image) card.prepend(image);
     });
   }
