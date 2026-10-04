@@ -11,6 +11,17 @@
 .modal-art{width:100%;max-height:310px;object-fit:cover;border-radius:13px;margin:0 0 18px;border:1px solid var(--line);display:block}
 .modal-suspect-art{width:150px;height:190px;object-fit:cover;object-position:center 18%;float:left;margin:0 20px 12px 0;border-radius:12px;border:1px solid var(--line)}
 
+/* Search Blackwood Manor room photography */
+.room-card{min-height:360px;padding:0;background:#0c0f14;isolation:isolate}
+.room-card .room-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;z-index:0;transition:transform .5s ease,filter .35s ease;filter:saturate(.86) contrast(1.04)}
+.room-card:hover .room-photo{transform:scale(1.035);filter:saturate(1) contrast(1.05)}
+.room-card .room-photo-shade{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(5,7,10,.04) 0%,rgba(5,7,10,.15) 38%,rgba(5,7,10,.9) 76%,rgba(5,7,10,.98) 100%);pointer-events:none}
+.room-card .room-card-content{position:relative;z-index:2;padding:22px;width:100%;margin-top:auto}
+.room-card .room-number{z-index:3;color:rgba(255,255,255,.58);text-shadow:0 2px 16px rgba(0,0,0,.8)}
+.room-card .room-card-content h3{color:#fff;text-shadow:0 3px 18px rgba(0,0,0,.9)}
+.room-card .room-card-content p{color:#c6cbd2;text-shadow:0 2px 10px rgba(0,0,0,.9)}
+.room-card.searched .room-photo{filter:saturate(.6) brightness(.72)}
+
 /* Crime scene: preserve the generated artwork's native 3:2 composition.
    The image is never enlarged past 1536px, preventing soft scaling on large displays. */
 .study-room.crime-art-loaded{
@@ -79,6 +90,7 @@
 @media(max-width:620px){
   .modal-suspect-art{width:100%;height:280px;float:none;margin:0 0 18px}
   .evidence-thumb-art{height:190px}
+  .room-card{min-height:330px}
   .study-room.crime-art-loaded{width:100%;aspect-ratio:3 / 2;min-height:0}
   .study-room.crime-art-loaded .crime-scene-art{object-fit:contain;object-position:center}
   .study-room.crime-art-loaded .hotspot{min-width:48px;min-height:48px}
