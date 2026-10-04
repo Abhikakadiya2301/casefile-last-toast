@@ -3,11 +3,11 @@
     victim: 'assets/adrian-blackwood.webp',
     crimeScene: 'assets/scenes/Mysterious Study Crime Scene Investigation.png',
     suspects: {
-      'Eleanor Blackwood': 'assets/eleanor-blackwood.webp',
-      'Daniel Blackwood': 'assets/daniel-blackwood.webp',
-      'Dr. Maya Sen': 'assets/maya-sen.webp',
-      'Victor Hale': 'assets/victor-hale.webp',
-      'Thomas Reed': 'assets/thomas-reed.webp'
+      'Eleanor Blackwood': 'assets/Eleanor Blackwood.png',
+      'Daniel Blackwood': 'assets/Daniel Blackwood.png',
+      'Dr. Maya Sen': 'assets/Dr. Maya Sen.png',
+      'Victor Hale': 'assets/Victor Hale.png',
+      'Thomas Reed': 'assets/Thomas Reed.png'
     },
     evidence: {
       'Victim examination': 'assets/adrian-blackwood.webp',
