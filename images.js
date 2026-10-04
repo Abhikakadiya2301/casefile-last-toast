@@ -1,6 +1,6 @@
 (() => {
   const assets = {
-    victim: 'assets/adrian-blackwood.webp',
+    victim: 'assets/Adrian Blackwood.png',
     crimeScene: 'assets/scenes/Mysterious Study Crime Scene Investigation.png',
     suspects: {
       'Eleanor Blackwood': 'assets/Eleanor Blackwood.png',
@@ -10,7 +10,7 @@
       'Thomas Reed': 'assets/Thomas Reed.png'
     },
     evidence: {
-      'Victim examination': 'assets/adrian-blackwood.webp',
+      'Victim examination': 'assets/Adrian Blackwood.png',
       'Whiskey glass': 'assets/evidence-whiskey.webp',
       'Stopped pocket watch': 'assets/evidence-watch.webp',
       'Torn envelope to Victor': 'assets/evidence-letter.webp',
