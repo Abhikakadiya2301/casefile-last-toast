@@ -1,15 +1,25 @@
+const SCENE_EVIDENCE={body:"body",glass:"glass",desk:"text"};
+
+// Migrate older saves where hotspot 03 collected the pocket-watch evidence.
+if(state.collected.includes("desk")){
+  state.collected=state.collected.filter(id=>id!=="desk");
+  if(!state.collected.includes("text")) state.collected.push("text");
+  saveState();
+}
+
 function renderScene(){
-  const labels={body:"Examine Adrian",glass:"Inspect whiskey glass",desk:"Search desk"};
+  const labels={body:"Examine Adrian",glass:"Inspect whiskey glass",desk:"Open desk drawer"};
   $("#sceneChecklist").innerHTML=Object.entries(labels).map(([id,l])=>`<div class="check-item ${state.sceneSeen.includes(id)?"done":""}"><i>${state.sceneSeen.includes(id)?"✓":""}</i><span>${l}</span></div>`).join("");
   $$("[data-scene]").forEach(btn=>btn.classList.toggle("seen",state.sceneSeen.includes(btn.dataset.scene)));
 }
 $$("[data-scene]").forEach(btn=>btn.onclick=()=>{
-  const id=btn.dataset.scene;
-  if(!state.sceneSeen.includes(id)){
-    state.sceneSeen.push(id); collect(id,false);
-    if(state.sceneSeen.length===3) showNotification("Case update","The obvious weapon does not fit the scene. Search the manor for context.");
+  const hotspotId=btn.dataset.scene;
+  const evidenceId=SCENE_EVIDENCE[hotspotId]||hotspotId;
+  if(!state.sceneSeen.includes(hotspotId)){
+    state.sceneSeen.push(hotspotId); collect(evidenceId,false);
+    if(state.sceneSeen.length===3) showNotification("Case update","The drawer reveals Adrian summoned Victor to the study. Search the manor for context.");
   }
-  openEvidence(id);
+  openEvidence(evidenceId);
 });
 
 const ROOM_IMAGES={
