@@ -193,6 +193,7 @@
   function boot() {
     ensureEvidenceLightbox();
     enhanceAll();
+    import('./auth.js').catch(error => console.error('CASEFILE auth failed to load:', error));
     const observer = new MutationObserver(() => requestAnimationFrame(enhanceAll));
     observer.observe(document.body, { subtree: true, childList: true });
   }
