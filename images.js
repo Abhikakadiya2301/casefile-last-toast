@@ -11,7 +11,7 @@
     },
     evidence: {
       'Victim examination': 'assets/Confidential Ottawa Forensic Report.png',
-      'Whiskey glass': null,
+      'Whiskey glass': 'assets/Whiskey glass.png',
       'Dinner photograph': 'assets/Dinner photograph.png',
       "Daniel's call log": 'assets/Cinematic Call Log Investigation.png',
       'Torn envelope to Victor': 'assets/Torn envelope to Victor.png',
@@ -36,25 +36,6 @@
     if (className) image.className = className;
     return image;
   };
-
-  function loadWhiskeyEvidence() {
-    if (window.CASEFILE_IMAGES?.whiskey) {
-      assets.evidence['Whiskey glass'] = window.CASEFILE_IMAGES.whiskey;
-      enhanceAll();
-      return;
-    }
-    if (document.querySelector('script[data-casefile-whiskey]')) return;
-    const script = document.createElement('script');
-    script.src = 'assets/evidence-whiskey.js';
-    script.dataset.casefileWhiskey = 'true';
-    script.onload = () => {
-      if (window.CASEFILE_IMAGES?.whiskey) {
-        assets.evidence['Whiskey glass'] = window.CASEFILE_IMAGES.whiskey;
-        enhanceAll();
-      }
-    };
-    document.head.append(script);
-  }
 
   function cleanCrimeSceneUI(scene) {
     scene.querySelectorAll('.hotspot,.desk-shape,.lamp-shape,.body-outline').forEach(el => el.remove());
@@ -156,7 +137,6 @@
   }
 
   function boot() {
-    loadWhiskeyEvidence();
     enhanceAll();
     const observer = new MutationObserver(() => requestAnimationFrame(enhanceAll));
     observer.observe(document.body, { subtree: true, childList: true });
