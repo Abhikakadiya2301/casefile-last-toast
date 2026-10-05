@@ -8,8 +8,10 @@ if(state.collected.includes("desk")){
 }
 
 function renderScene(){
+  const checklist=$("#sceneChecklist");
+  if(!checklist) return;
   const labels={body:"Examine Adrian",glass:"Inspect whiskey glass",desk:"Open desk drawer"};
-  $("#sceneChecklist").innerHTML=Object.entries(labels).map(([id,l])=>`<div class="check-item ${state.sceneSeen.includes(id)?"done":""}"><i>${state.sceneSeen.includes(id)?"✓":""}</i><span>${l}</span></div>`).join("");
+  checklist.innerHTML=Object.entries(labels).map(([id,l])=>`<div class="check-item ${state.sceneSeen.includes(id)?"done":""}"><i>${state.sceneSeen.includes(id)?"✓":""}</i><span>${l}</span></div>`).join("");
   $$("[data-scene]").forEach(btn=>btn.classList.toggle("seen",state.sceneSeen.includes(btn.dataset.scene)));
 }
 $$("[data-scene]").forEach(btn=>btn.onclick=()=>{
@@ -123,12 +125,16 @@ $$(".filter").forEach(f=>f.onclick=()=>{
 function openEvidence(id,roomId=null){
   const e=DATA.evidence[id];
   const room=roomId?DATA.rooms.find(r=>r.id===roomId):DATA.rooms.find(r=>r.clue===id);
-  const roomPhoto=room?ROOM_IMAGES[room.id]:null;
   $("#modalContent").innerHTML=`
-    ${roomPhoto?`<div class="clue-scene-wrap"><img class="clue-scene-photo" src="${roomPhoto}" alt="${room.name} investigation scene"><span class="clue-scene-label">FOUND IN · ${room.name.toUpperCase()}</span></div>`:""}
     <div class="evidence-detail">
       <div class="evidence-art">${e.icon}</div>
-      <div><p class="eyebrow">${e.type.toUpperCase()} EVIDENCE</p><h3>${e.title}</h3><p>${e.detail}</p>${e.critical?'<span class="phase-chip">CRITICAL EVIDENCE</span>':""}</div>
+      <div>
+        <p class="eyebrow">${e.type.toUpperCase()} EVIDENCE</p>
+        <h3>${e.title}</h3>
+        ${room?`<p class="clue-location">FOUND IN · ${room.name.toUpperCase()}</p>`:""}
+        <p>${e.detail}</p>
+        ${e.critical?'<span class="phase-chip">CRITICAL EVIDENCE</span>':""}
+      </div>
     </div>`;
   $("#modal").showModal();
   updateUI();
