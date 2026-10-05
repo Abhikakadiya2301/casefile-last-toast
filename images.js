@@ -37,6 +37,59 @@
     return image;
   };
 
+  function ensureEvidenceLightbox() {
+    let lightbox = document.querySelector('#evidenceLightbox');
+    if (lightbox) return lightbox;
+
+    lightbox = document.createElement('dialog');
+    lightbox.id = 'evidenceLightbox';
+    lightbox.className = 'evidence-lightbox';
+    lightbox.setAttribute('aria-label', 'Full evidence image');
+    lightbox.innerHTML = `
+      <button class="evidence-lightbox-close" type="button" aria-label="Close full image">×</button>
+      <figure class="evidence-lightbox-figure">
+        <img class="evidence-lightbox-image" alt="">
+        <figcaption class="evidence-lightbox-caption"></figcaption>
+      </figure>`;
+
+    document.body.append(lightbox);
+
+    lightbox.querySelector('.evidence-lightbox-close').addEventListener('click', () => lightbox.close());
+    lightbox.addEventListener('click', event => {
+      if (event.target === lightbox) lightbox.close();
+    });
+
+    return lightbox;
+  }
+
+  function openEvidenceLightbox(image) {
+    if (!image?.src) return;
+    const lightbox = ensureEvidenceLightbox();
+    const fullImage = lightbox.querySelector('.evidence-lightbox-image');
+    const caption = lightbox.querySelector('.evidence-lightbox-caption');
+    fullImage.src = image.currentSrc || image.src;
+    fullImage.alt = image.alt || 'Evidence image';
+    caption.textContent = image.alt || '';
+    if (!lightbox.open) lightbox.showModal();
+  }
+
+  function enableEvidenceImageViewing() {
+    document.querySelectorAll('.evidence-thumb-art,.modal-art').forEach(image => {
+      if (image.dataset.fullscreenBound === 'true') return;
+      image.dataset.fullscreenBound = 'true';
+      image.tabIndex = 0;
+      image.setAttribute('role', 'button');
+      image.setAttribute('aria-label', `View ${image.alt || 'evidence image'} full size`);
+      image.addEventListener('click', () => openEvidenceLightbox(image));
+      image.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openEvidenceLightbox(image);
+        }
+      });
+    });
+  }
+
   function cleanCrimeSceneUI(scene) {
     scene.querySelectorAll('.hotspot,.desk-shape,.lamp-shape,.body-outline').forEach(el => el.remove());
     const layout = scene.closest('.scene-layout');
@@ -134,9 +187,11 @@
     enhanceSuspects();
     enhanceEvidence();
     enhanceModal();
+    enableEvidenceImageViewing();
   }
 
   function boot() {
+    ensureEvidenceLightbox();
     enhanceAll();
     const observer = new MutationObserver(() => requestAnimationFrame(enhanceAll));
     observer.observe(document.body, { subtree: true, childList: true });
