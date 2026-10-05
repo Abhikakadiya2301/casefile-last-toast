@@ -125,9 +125,10 @@ $$(".filter").forEach(f=>f.onclick=()=>{
 function openEvidence(id,roomId=null){
   const e=DATA.evidence[id];
   const room=roomId?DATA.rooms.find(r=>r.id===roomId):DATA.rooms.find(r=>r.clue===id);
+  const isPhase2Review=Boolean(roomId);
   $("#modalContent").innerHTML=`
-    <div class="evidence-detail">
-      <div class="evidence-art">${e.icon}</div>
+    <div class="evidence-detail ${isPhase2Review?"phase2-review":""}">
+      ${isPhase2Review?"":`<div class="evidence-art">${e.icon}</div>`}
       <div>
         <p class="eyebrow">${e.type.toUpperCase()} EVIDENCE</p>
         <h3>${e.title}</h3>
