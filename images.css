@@ -70,6 +70,24 @@
 .study-room.crime-art-loaded .lamp-shape,
 .study-room.crime-art-loaded .body-outline{display:none}
 
+/* Evidence inspect modal: make artwork easier to examine and reduce supporting copy slightly. */
+#modal:has(.modal-art){width:min(1040px,94vw);max-width:1040px}
+#modal:has(.modal-art) .modal-art{
+  width:100%;
+  height:auto;
+  max-height:465px;
+  object-fit:contain;
+  object-position:center;
+  background:#090b0e;
+  border-radius:14px;
+  margin:0 0 16px;
+}
+#modal:has(.modal-art) .evidence-detail{align-items:flex-start;gap:16px}
+#modal:has(.modal-art) .evidence-detail h3{font-size:22px;line-height:1.15;margin-bottom:8px}
+#modal:has(.modal-art) .evidence-detail p:not(.eyebrow):not(.clue-location){font-size:12.5px;line-height:1.5}
+#modal:has(.modal-art) .evidence-detail .eyebrow,
+#modal:has(.modal-art) .evidence-detail .clue-location{font-size:9px}
+
 @media(max-width:620px){
   .modal-suspect-art{width:100%;height:280px;float:none;margin:0 0 18px}
   .evidence-thumb-art{height:190px}
@@ -77,4 +95,8 @@
   .clue-scene-wrap{height:230px}
   .study-room.crime-art-loaded{width:100%;aspect-ratio:3 / 2;min-height:0}
   .study-room.crime-art-loaded .crime-scene-art{object-fit:contain;object-position:center}
+  #modal:has(.modal-art){width:96vw;max-width:96vw;padding:18px}
+  #modal:has(.modal-art) .modal-art{max-height:58vh}
+  #modal:has(.modal-art) .evidence-detail h3{font-size:20px}
+  #modal:has(.modal-art) .evidence-detail p:not(.eyebrow):not(.clue-location){font-size:12px}
 }
