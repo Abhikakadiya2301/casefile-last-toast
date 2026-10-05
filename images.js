@@ -10,18 +10,18 @@
       'Thomas Reed': 'assets/Thomas Reed.png'
     },
     evidence: {
-      'Victim examination': 'assets/Adrian Blackwood.png',
+      'Victim examination': 'assets/Confidential Ottawa Forensic Report.png',
       'Whiskey glass': null,
-      'Dinner photograph': null,
+      'Dinner photograph': 'assets/Dinner photograph.png',
       "Daniel's call log": 'assets/Cinematic Call Log Investigation.png',
       'Torn envelope to Victor': 'assets/Torn envelope to Victor.png',
       'East corridor access log': 'assets/East corridor access log.png',
       'Private financial audit': 'assets/Confidential Audit_ Unexplained Transfers.png',
       "Dr. Sen's medical bag": 'assets/The Missing VX-17 Sample.png',
       'Security override record': 'assets/Security Office.png',
-      'Toxicology report': 'assets/scenes/Mysterious Study Crime Scene Investigation.png',
-      'Latent print report': 'assets/scenes/Mysterious Study Crime Scene Investigation.png',
-      "Adrian's final message": 'assets/scenes/Mysterious Study Crime Scene Investigation.png'
+      'Toxicology report': 'assets/Toxicology report.png',
+      'Latent print report': 'assets/Latent print report.png',
+      "Adrian's final message": 'assets/Adrian’s final message.png'
     }
   };
 
