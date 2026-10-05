@@ -104,6 +104,7 @@
   margin:0 0 16px;
 }
 #modal:has(.modal-art) .evidence-detail{align-items:flex-start;gap:16px}
+.modal .evidence-detail.phase2-review{grid-template-columns:1fr}
 #modal:has(.modal-art) .evidence-detail h3{font-size:22px;line-height:1.15;margin-bottom:8px}
 #modal:has(.modal-art) .evidence-detail p:not(.eyebrow):not(.clue-location){font-size:12.5px;line-height:1.5}
 #modal:has(.modal-art) .evidence-detail .eyebrow,
