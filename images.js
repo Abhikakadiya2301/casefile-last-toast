@@ -11,8 +11,7 @@
     },
     evidence: {
       'Victim examination': 'assets/Adrian Blackwood.png',
-      'Whiskey glass': 'assets/scenes/Mysterious Study Crime Scene Investigation.png',
-      'Stopped pocket watch': 'assets/scenes/Mysterious Study Crime Scene Investigation.png',
+      'Whiskey glass': null,
       'Dinner photograph': 'assets/Dinning room.png',
       "Daniel's call log": 'assets/Cinematic Call Log Investigation.png',
       'Torn envelope to Victor': 'assets/moonlit_conservatory_mystery.png',
@@ -22,7 +21,7 @@
       'Security override record': 'assets/Security Office.png',
       'Toxicology report': 'assets/scenes/Mysterious Study Crime Scene Investigation.png',
       'Latent print report': 'assets/scenes/Mysterious Study Crime Scene Investigation.png',
-      "Adrian's final message": 'assets/Victor Hale.png'
+      "Adrian's final message": 'assets/scenes/Mysterious Study Crime Scene Investigation.png'
     }
   };
 
@@ -37,6 +36,25 @@
     if (className) image.className = className;
     return image;
   };
+
+  function loadWhiskeyEvidence() {
+    if (window.CASEFILE_IMAGES?.whiskey) {
+      assets.evidence['Whiskey glass'] = window.CASEFILE_IMAGES.whiskey;
+      enhanceAll();
+      return;
+    }
+    if (document.querySelector('script[data-casefile-whiskey]')) return;
+    const script = document.createElement('script');
+    script.src = 'assets/evidence-whiskey.js';
+    script.dataset.casefileWhiskey = 'true';
+    script.onload = () => {
+      if (window.CASEFILE_IMAGES?.whiskey) {
+        assets.evidence['Whiskey glass'] = window.CASEFILE_IMAGES.whiskey;
+        enhanceAll();
+      }
+    };
+    document.head.append(script);
+  }
 
   function enhanceCrimeScene() {
     const scene = document.querySelector('.study-room');
@@ -77,7 +95,7 @@
       if (!src) return;
       const current = card.querySelector('.evidence-thumb-art');
       if (current) {
-        if (!current.src.endsWith(encodeURI(src))) current.src = src;
+        if (current.src !== src && !current.src.endsWith(encodeURI(src))) current.src = src;
         current.alt = title || 'Case evidence';
         return;
       }
@@ -88,14 +106,23 @@
 
   function enhanceModal() {
     const modal = document.querySelector('#modalContent');
-    if (!modal || modal.querySelector('.modal-art,.modal-suspect-art')) return;
+    if (!modal) return;
     const text = modal.textContent || '';
     const evidenceTitle = Object.keys(assets.evidence).find(title => text.includes(title));
-    if (evidenceTitle) {
-      const image = makeImage(assets.evidence[evidenceTitle], evidenceTitle, 'modal-art');
+    if (evidenceTitle && assets.evidence[evidenceTitle]) {
+      const src = assets.evidence[evidenceTitle];
+      const existing = modal.querySelector('.modal-art');
+      if (existing) {
+        if (existing.src !== src && !existing.src.endsWith(encodeURI(src))) existing.src = src;
+        existing.alt = evidenceTitle;
+        return;
+      }
+      if (modal.querySelector('.modal-suspect-art')) return;
+      const image = makeImage(src, evidenceTitle, 'modal-art');
       if (image) modal.prepend(image);
       return;
     }
+    if (modal.querySelector('.modal-art,.modal-suspect-art')) return;
     const suspectName = Object.keys(assets.suspects).find(name => text.includes(name));
     if (suspectName) {
       const image = makeImage(assets.suspects[suspectName], suspectName, 'modal-suspect-art');
@@ -112,6 +139,7 @@
   }
 
   function boot() {
+    loadWhiskeyEvidence();
     enhanceAll();
     const observer = new MutationObserver(() => requestAnimationFrame(enhanceAll));
     observer.observe(document.body, { subtree: true, childList: true });
