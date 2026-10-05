@@ -56,10 +56,20 @@
     document.head.append(script);
   }
 
+  function cleanCrimeSceneUI(scene) {
+    scene.querySelectorAll('.hotspot,.desk-shape,.lamp-shape,.body-outline').forEach(el => el.remove());
+    const layout = scene.closest('.scene-layout');
+    const sidebar = layout?.querySelector('.scene-sidebar');
+    if (sidebar) sidebar.remove();
+    if (layout) layout.classList.add('scene-image-only');
+  }
+
   function enhanceCrimeScene() {
     const scene = document.querySelector('.study-room');
-    if (!scene || scene.classList.contains('crime-art-loaded')) return;
-    const image = makeImage(assets.crimeScene, 'Blackwood study crime scene with evidence markers 1, 2 and 3', 'crime-scene-art');
+    if (!scene) return;
+    cleanCrimeSceneUI(scene);
+    if (scene.classList.contains('crime-art-loaded')) return;
+    const image = makeImage(assets.crimeScene, 'Blackwood study crime scene', 'crime-scene-art');
     if (!image) return;
     scene.prepend(image);
     scene.classList.add('crime-art-loaded');
