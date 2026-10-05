@@ -12,12 +12,12 @@
     evidence: {
       'Victim examination': 'assets/Adrian Blackwood.png',
       'Whiskey glass': null,
-      'Dinner photograph': 'assets/Dinning room.png',
+      'Dinner photograph': null,
       "Daniel's call log": 'assets/Cinematic Call Log Investigation.png',
-      'Torn envelope to Victor': 'assets/moonlit_conservatory_mystery.png',
-      'East corridor access log': 'assets/Security Office.png',
-      'Private financial audit': 'assets/image-gen-6(1).png',
-      "Dr. Sen's medical bag": 'assets/Mansion Lounge Mystery Crime Scene.png',
+      'Torn envelope to Victor': null,
+      'East corridor access log': null,
+      'Private financial audit': null,
+      "Dr. Sen's medical bag": null,
       'Security override record': 'assets/Security Office.png',
       'Toxicology report': 'assets/scenes/Mysterious Study Crime Scene Investigation.png',
       'Latent print report': 'assets/scenes/Mysterious Study Crime Scene Investigation.png',
@@ -102,7 +102,10 @@
     document.querySelectorAll('.evidence-card').forEach(card => {
       const title = card.querySelector('h4')?.textContent.trim();
       const src = assets.evidence[title];
-      if (!src) return;
+      if (!src) {
+        card.querySelector('.evidence-thumb-art')?.remove();
+        return;
+      }
       const current = card.querySelector('.evidence-thumb-art');
       if (current) {
         if (current.src !== src && !current.src.endsWith(encodeURI(src))) current.src = src;
@@ -119,9 +122,13 @@
     if (!modal) return;
     const text = modal.textContent || '';
     const evidenceTitle = Object.keys(assets.evidence).find(title => text.includes(title));
-    if (evidenceTitle && assets.evidence[evidenceTitle]) {
+    if (evidenceTitle) {
       const src = assets.evidence[evidenceTitle];
       const existing = modal.querySelector('.modal-art');
+      if (!src) {
+        if (existing) existing.remove();
+        return;
+      }
       if (existing) {
         if (existing.src !== src && !existing.src.endsWith(encodeURI(src))) existing.src = src;
         existing.alt = evidenceTitle;
