@@ -1,10 +1,11 @@
 export const firebaseConfig = {
-  apiKey: "PASTE_FIREBASE_API_KEY",
-  authDomain: "PASTE_FIREBASE_AUTH_DOMAIN",
-  projectId: "PASTE_FIREBASE_PROJECT_ID",
-  appId: "PASTE_FIREBASE_APP_ID"
+  apiKey: "AIzaSyAi1RPEGFpqpvIT8VysWLd5Gq9MK0wkAkQ",
+  authDomain: "casefile-last-toast.firebaseapp.com",
+  projectId: "casefile-last-toast",
+  storageBucket: "casefile-last-toast.firebasestorage.app",
+  messagingSenderId: "1006613134429",
+  appId: "1:1006613134429:web:5a162bd4d444e50cc821b4",
+  measurementId: "G-K3DHQJGYY3"
 };
 
-export const firebaseConfigured = Object.values(firebaseConfig).every(
-  value => value && !String(value).startsWith("PASTE_")
-);
+export const firebaseConfigured = true;
