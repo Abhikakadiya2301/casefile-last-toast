@@ -153,7 +153,7 @@ function renderReports(){
     <button class="ghost-btn report-read" data-report="${r.id}">${state.reportsRead.includes(r.id)?"Reviewed":"Mark reviewed"}</button>
     <span class="report-stamp">${r.stamp}</span>
   </article>`).join("");
-  $(".report-read").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".report-read").forEach(b=>b.onclick=()=>{
     const id=b.dataset.report;
     if(!state.reportsRead.includes(id)){
       state.reportsRead.push(id);
