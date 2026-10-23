@@ -40,9 +40,9 @@
         <button data-view="briefing" class="nav-item active"><span>01</span> Briefing</button>
         <button data-view="scene" class="nav-item"><span>02</span> Crime Scene</button>
         <button data-view="suspects" class="nav-item"><span>03</span> Suspects</button>
-        <button data-view="mansion" class="nav-item locked"><span>04</span> Mansion <b>LOCKED</b></button>
-        <button data-view="evidence" class="nav-item"><span>05</span> Evidence</button>
-        <button data-view="reports" class="nav-item locked"><span>06</span> Reports <b>LOCKED</b></button>
+        <button data-view="reports" class="nav-item locked"><span>04</span> Reports <b>LOCKED</b></button>
+        <button data-view="mansion" class="nav-item locked"><span>05</span> Mansion <b>LOCKED</b></button>
+        <button data-view="evidence" class="nav-item"><span>06</span> Evidence</button>
         <button data-view="board" class="nav-item locked"><span>07</span> Evidence Board <b>LOCKED</b></button>
         <button data-view="timeline" class="nav-item locked"><span>08</span> Timeline <b>LOCKED</b></button>
         <button data-view="accuse" class="nav-item locked"><span>09</span> Accusation <b>LOCKED</b></button>
@@ -161,7 +161,7 @@
 
         <section class="view" id="view-mansion">
           <div class="section-intro">
-            <div><p class="eyebrow">STEP 4 · FIRST SWEEP</p><h3>Search Blackwood Manor</h3></div>
+            <div><p class="eyebrow">STEP 5 · FIRST SWEEP</p><h3>Search Blackwood Manor</h3></div>
             <p>Search rooms for records, objects, and traces the guests may have overlooked.</p>
           </div>
           <div id="roomGrid" class="room-grid"></div>
@@ -177,7 +177,7 @@
 
         <section class="view" id="view-evidence">
           <div class="section-intro">
-            <div><p class="eyebrow">CASE ARCHIVE</p><h3>Evidence Locker</h3></div>
+            <div><p class="eyebrow">STEP 6 · CASE ARCHIVE</p><h3>Evidence Locker</h3></div>
             <p>Everything you collect is preserved here. Evidence marked critical can support your final accusation.</p>
           </div>
           <div class="evidence-toolbar">
@@ -192,8 +192,8 @@
 
         <section class="view" id="view-reports">
           <div class="section-intro">
-            <div><p class="eyebrow">STEP 6 · EVIDENCE ANALYSIS</p><h3>Forensic Reports</h3></div>
-            <p>The lab changes the case. Read the documents closely; one apparent clue was staged.</p>
+            <div><p class="eyebrow">STEP 4 · FORENSIC RESULTS</p><h3>Forensic Reports</h3></div>
+            <p>The first interviews are complete. Forensics has now returned the toxicology and latent print results.</p>
           </div>
           <div id="reportGrid" class="report-grid"></div>
         </section>
