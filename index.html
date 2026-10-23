@@ -39,8 +39,8 @@
       <nav class="case-nav" aria-label="Case sections">
         <button data-view="briefing" class="nav-item active"><span>01</span> Briefing</button>
         <button data-view="scene" class="nav-item"><span>02</span> Crime Scene</button>
-        <button data-view="mansion" class="nav-item"><span>03</span> Mansion</button>
-        <button data-view="suspects" class="nav-item"><span>04</span> Suspects</button>
+        <button data-view="suspects" class="nav-item"><span>03</span> Suspects</button>
+        <button data-view="mansion" class="nav-item locked"><span>04</span> Mansion <b>LOCKED</b></button>
         <button data-view="evidence" class="nav-item"><span>05</span> Evidence</button>
         <button data-view="reports" class="nav-item locked"><span>06</span> Reports <b>LOCKED</b></button>
         <button data-view="board" class="nav-item locked"><span>07</span> Evidence Board <b>LOCKED</b></button>
@@ -161,7 +161,7 @@
 
         <section class="view" id="view-mansion">
           <div class="section-intro">
-            <div><p class="eyebrow">PHASE 2 · FIRST SWEEP</p><h3>Search Blackwood Manor</h3></div>
+            <div><p class="eyebrow">STEP 4 · FIRST SWEEP</p><h3>Search Blackwood Manor</h3></div>
             <p>Search rooms for records, objects, and traces the guests may have overlooked.</p>
           </div>
           <div id="roomGrid" class="room-grid"></div>
@@ -169,7 +169,7 @@
 
         <section class="view" id="view-suspects">
           <div class="section-intro">
-            <div><p class="eyebrow">PHASE 3 · INTERVIEWS</p><h3>Five people. Five stories.</h3></div>
+            <div><p class="eyebrow">STEP 3 · INTERVIEWS</p><h3>Five people. Five stories.</h3></div>
             <p>Interview each person. New questions appear when your evidence contradicts their statements.</p>
           </div>
           <div id="suspectGrid" class="suspect-grid"></div>
@@ -192,7 +192,7 @@
 
         <section class="view" id="view-reports">
           <div class="section-intro">
-            <div><p class="eyebrow">PHASE 4 · EVIDENCE ANALYSIS</p><h3>Forensic Reports</h3></div>
+            <div><p class="eyebrow">STEP 6 · EVIDENCE ANALYSIS</p><h3>Forensic Reports</h3></div>
             <p>The lab changes the case. Read the documents closely; one apparent clue was staged.</p>
           </div>
           <div id="reportGrid" class="report-grid"></div>
@@ -200,7 +200,7 @@
 
         <section class="view" id="view-board">
           <div class="section-intro">
-            <div><p class="eyebrow">PHASE 5 · CONNECT THE CLUES</p><h3>Evidence Board</h3></div>
+            <div><p class="eyebrow">STEP 7 · CONNECT THE CLUES</p><h3>Evidence Board</h3></div>
             <p>Select evidence cards that belong together, then test your deduction.</p>
           </div>
           <div class="board-layout">
@@ -224,7 +224,7 @@
 
         <section class="view" id="view-timeline">
           <div class="section-intro">
-            <div><p class="eyebrow">PHASE 6 · RECONSTRUCT THE NIGHT</p><h3>What happened between 9:15 and 11:47?</h3></div>
+            <div><p class="eyebrow">STEP 8 · RECONSTRUCT THE NIGHT</p><h3>What happened between 9:15 and 11:47?</h3></div>
             <p>Drag the events into chronological order. On mobile, use the arrow controls.</p>
           </div>
           <div class="timeline-wrap">
@@ -239,7 +239,7 @@
 
         <section class="view" id="view-accuse">
           <div class="section-intro">
-            <div><p class="eyebrow">FINAL PHASE</p><h3>Build Your Case</h3></div>
+            <div><p class="eyebrow">STEP 9 · FINAL ACCUSATION</p><h3>Build Your Case</h3></div>
             <p>Name the killer, identify the motive and method, then support your accusation with evidence.</p>
           </div>
 
