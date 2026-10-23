@@ -110,10 +110,16 @@ function friendlyError(error) {
     'auth/email-already-in-use': 'An account already exists with this email.',
     'auth/weak-password': 'Use a stronger password with at least 6 characters.',
     'auth/invalid-email': 'Enter a valid email address.',
+    'auth/operation-not-allowed': 'Email/password sign-in is disabled in Firebase. Open Firebase Console → Authentication → Sign-in method → Email/Password and enable it.',
+    'auth/configuration-not-found': 'Firebase Authentication is not fully configured for this project. Open Firebase Console → Authentication and complete setup.',
+    'auth/unauthorized-domain': 'This website domain is not authorized in Firebase Authentication. Add abhikakadiya2301.github.io under Authentication → Settings → Authorized domains.',
+    'auth/app-not-authorized': 'This web app is not authorized to use Firebase Authentication. Check the Firebase Web App configuration and API key restrictions.',
+    'auth/invalid-api-key': 'The Firebase Web API key is invalid. Re-copy the web app configuration from Firebase Project Settings.',
+    'auth/api-key-not-valid.-please-pass-a-valid-api-key.': 'The Firebase Web API key is invalid. Re-copy the web app configuration from Firebase Project Settings.',
     'auth/too-many-requests': 'Too many attempts. Please wait a moment and try again.',
     'auth/network-request-failed': 'Network error. Check your connection and try again.'
   };
-  return messages[code] || 'Something went wrong. Please try again.';
+  return messages[code] || `Firebase returned ${code || 'an unknown error'}. Please send this error code so it can be diagnosed.`;
 }
 
 function initials(user) {
@@ -172,6 +178,7 @@ form.addEventListener('submit', async event => {
     form.reset();
     setTimeout(() => modal.close(), 450);
   } catch (error) {
+    console.error('CASEFILE authentication error:', error);
     setMessage(friendlyError(error), 'error');
   } finally {
     submit.disabled = false;
