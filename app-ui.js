@@ -14,8 +14,8 @@ function phase(){
   const d=progressData();
   if(d.scene<1) return [2,"The Crime"];
   if(d.interviews<1) return [3,"Interview the Suspects"];
-  if(d.rooms<.5) return [4,"Search the Manor"];
-  if(d.reports<1) return [6,"Evidence Analysis"];
+  if(d.reports<1) return [4,"Review Forensic Reports"];
+  if(d.rooms<.5) return [5,"Search the Manor"];
   if(d.deductions<2/3) return [7,"Connect the Clues"];
   if(!d.timeline) return [8,"Reconstruct the Night"];
   if(!d.completed) return [9,"Make Your Accusation"];
@@ -24,11 +24,12 @@ function phase(){
 function unlocks(){
   const d=progressData();
   const interviewsComplete=state.interviewed.length>=DATA.suspects.length;
+  const reportsComplete=state.reportsRead.length>=DATA.reports.length;
   const manorProgress=state.roomsSearched.length>=3;
   return {
-    mansion: interviewsComplete,
-    reports: interviewsComplete && manorProgress && state.collected.length>=6,
-    board: state.reportsRead.length>=2,
+    reports: interviewsComplete,
+    mansion: reportsComplete,
+    board: reportsComplete && manorProgress && state.collected.length>=6,
     timeline: state.deductions.length>=2,
     accuse: state.timelineSolved
   }
@@ -36,9 +37,9 @@ function unlocks(){
 function objective(){
   const d=progressData();
   if(d.scene<1) return ["Secure the crime scene","Review the study before moving on to the people who were inside Blackwood Manor.",["Examine Adrian","Inspect whiskey glass","Search desk"],["body","glass","desk"].map(x=>state.sceneSeen.includes(x))];
-  if(d.interviews<1) return ["Interview the suspects","Question all five suspects before searching the manor. Their first statements give you the claims you will test against physical evidence.",DATA.suspects.map(s=>`Interview ${s.name.split(" ")[0]}`),DATA.suspects.map(s=>state.interviewed.includes(s.id))];
-  if(d.rooms<.5) return ["Search the manor","Now test those statements against the rooms, records, and objects around Blackwood Manor.",["Search 3 rooms","Collect 6 clues"],[state.roomsSearched.length>=3,state.collected.length>=6]];
-  if(d.reports<1) return ["Review the forensic reports","Open the Toxicology Report and Latent Print Report. The images contain the forensic findings you need.",DATA.reports.map(r=>`Review ${r.title}`),DATA.reports.map(r=>state.reportsRead.includes(r.id))];
+  if(d.interviews<1) return ["Interview the suspects","Question all five suspects first. Once the interviews are complete, the forensic results will be ready for review.",DATA.suspects.map(s=>`Interview ${s.name.split(" ")[0]}`),DATA.suspects.map(s=>state.interviewed.includes(s.id))];
+  if(d.reports<1) return ["Review the forensic reports","Forensics has returned the Toxicology Report and Latent Print Report. Review both before continuing the scene search.",DATA.reports.map(r=>`Review ${r.title}`),DATA.reports.map(r=>state.reportsRead.includes(r.id))];
+  if(d.rooms<.5) return ["Search the manor","Use the suspect statements and forensic findings to test rooms, records, and objects around Blackwood Manor.",["Search 3 rooms","Collect 6 clues"],[state.roomsSearched.length>=3,state.collected.length>=6]];
   if(d.deductions<2/3) return ["Connect the evidence","Use the evidence board to unlock at least two deductions.",["Unlock 2 deductions"],[state.deductions.length>=2]];
   if(!d.timeline) return ["Reconstruct the night","Put the recovered events in chronological order.",["Solve the timeline"],[state.timelineSolved]];
   if(!d.completed) return ["Build your accusation","Name the killer, motive, method, and three supporting clues.",["Submit your final accusation"],[false]];
