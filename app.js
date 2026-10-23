@@ -60,16 +60,6 @@ const DATA = {
     {id:"lab",title:"Toxicology Report",image:"assets/Toxicology report.png",stamp:"CAUSE REVISED"},
     {id:"print",title:"Latent Print Report",image:"assets/Latent print report.png",stamp:"MATCH"}
   ],
-  timeline:[
-    {id:"dinner",time:"9:15 PM",title:"Dinner ends",desc:"Guests leave the dining room."},
-    {id:"message",time:"10:05 PM",title:"Adrian messages Victor",desc:"He orders Victor to bring the ledger to the study."},
-    {id:"call",time:"10:24 PM",title:"Daniel's investor call begins",desc:"The call places Daniel in the billiard room."},
-    {id:"camera",time:"10:29 PM",title:"East camera disabled",desc:"Victor's admin token creates a blind spot."},
-    {id:"access",time:"10:31 PM",title:"Victor enters east corridor",desc:"His credential is recorded near the study."},
-    {id:"watch",time:"10:42 PM",title:"Pocket watch stops",desc:"A disturbance sends it to the floor."},
-    {id:"restore",time:"10:46 PM",title:"Camera feed restored",desc:"The same admin token restores the feed."},
-    {id:"found",time:"11:47 PM",title:"Body discovered",desc:"Thomas enters after Adrian misses a routine check-in."}
-  ],
   deductions:[
     {id:"motive", needs:["audit","torn_envelope","text"],title:"A confrontation was planned",text:"Adrian discovered financial irregularities tied to Victor and summoned him to the study."},
     {id:"lie", needs:["access_log","text","cctv_override"],title:"Victor's alibi is false",text:"His message, access credential, and security token place him at the east corridor during the murder window."},
@@ -85,7 +75,6 @@ const defaultState = {
   reportsRead:[],
   deductions:[],
   caseTheory:{accused:"",motive:"",method:"",evidence:[],validated:false},
-  timelineSolved:false,
   collected:[],
   activities:["Case opened. Adrian Blackwood found dead in his study."],
   hints:3,
@@ -97,7 +86,6 @@ let state = loadState();
 state.reportsRead = state.reportsRead.filter(id => DATA.reports.some(report => report.id === id));
 let currentView = "briefing";
 let boardSelected = Array.isArray(state.caseTheory?.evidence) ? [...state.caseTheory.evidence] : [];
-let timelineOrder = [...DATA.timeline].sort(()=>Math.random()-.5).map(e=>e.id);
 let revealIndex = 0;
 
 const $ = sel => document.querySelector(sel);
