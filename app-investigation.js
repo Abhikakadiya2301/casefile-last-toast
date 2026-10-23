@@ -224,14 +224,49 @@ function renderReports(){
   });
 }
 
+const THEORY_SUPPORT={
+  accused:{
+    victor:["access_log","cctv_override","print","text","torn_envelope","audit"]
+  },
+  motive:{
+    embezzlement:["audit","torn_envelope","text"]
+  },
+  method:{
+    toxin:["lab","print","medical_bag","glass"]
+  }
+};
+
+function supportsTheoryPillar(group,value,evidenceIds){
+  const supported=THEORY_SUPPORT[group]?.[value]||[];
+  return evidenceIds.some(id=>supported.includes(id));
+}
+
 function renderBoard(){
-  const usable=state.collected.filter(id=>DATA.evidence[id] && (DATA.evidence[id].critical || ["medical_bag","call_log"].includes(id)));
+  const usable=state.collected.filter(id=>DATA.evidence[id]);
+
+  const accusedSelect=$("#theoryAccusedSelect");
+  if(accusedSelect && accusedSelect.options.length===1){
+    DATA.suspects.forEach(s=>accusedSelect.add(new Option(s.name,s.id)));
+  }
+
+  if(accusedSelect && !accusedSelect.dataset.hydrated){
+    accusedSelect.value=state.caseTheory?.accused||"";
+    $("#theoryMotiveSelect").value=state.caseTheory?.motive||"";
+    $("#theoryMethodSelect").value=state.caseTheory?.method||"";
+    accusedSelect.dataset.hydrated="true";
+  }
+
+  boardSelected=boardSelected.filter(id=>usable.includes(id)).slice(0,3);
+
   $("#boardEvidence").innerHTML=usable.length?usable.map((id,i)=>{
     const e=DATA.evidence[id];
     return `<button class="board-card ${boardSelected.includes(id)?"selected":""}" style="--rot:${[-1.2,.8,-.4,1.1,-.8,.5][i%6]}deg" data-board="${id}">
-      <strong>${e.title}</strong><small>${e.summary}</small>
+      <strong>${e.title}</strong>
+      <small>${e.summary}</small>
+      <span class="board-evidence-type">${e.type}</span>
     </button>`;
-  }).join(""):`<div class="empty-state">No usable evidence is available yet. Continue the investigation.</div>`;
+  }).join(""):`<div class="empty-state">No evidence is available yet. Continue the investigation.</div>`;
+
   $$(".board-card").forEach(b=>b.onclick=()=>{
     const id=b.dataset.board;
     if(boardSelected.includes(id)) boardSelected=boardSelected.filter(x=>x!==id);
@@ -239,23 +274,55 @@ function renderBoard(){
     else showNotification("Three-clue limit","Remove one clue before adding another.");
     renderBoard();
   });
-  $("#boardSelection").innerHTML=[0,1,2].map(i=>boardSelected[i]?`<div class="selection-slot filled">${DATA.evidence[boardSelected[i]].title}</div>`:`<div class="selection-slot">Select evidence</div>`).join("");
-  $("#deductionList").innerHTML=state.deductions.length?state.deductions.map(id=>{
-    const d=DATA.deductions.find(x=>x.id===id);return `<div class="deduction"><strong>${d.title}</strong><p>${d.text}</p></div>`;
-  }).join(""):`<p class="muted">No deductions unlocked yet.</p>`;
-}
-$("#testDeductionBtn").onclick=()=>{
-  const found=DATA.deductions.find(d=>d.needs.every(x=>boardSelected.includes(x)));
-  if(found){
-    if(!state.deductions.includes(found.id)){
-      state.deductions.push(found.id);
-      addActivity(`Deduction unlocked: ${found.title}.`);
-      showNotification("Deduction unlocked",found.text);
-      if(state.deductions.length===2) showNotification("Timeline unlocked","You have enough connections to reconstruct the night.");
-    } else showNotification("Already discovered","You've already logged this deduction.");
-    boardSelected=[];
-  }else{
-    showNotification("Connection unproven","These clues do not yet support a verified deduction. Try another combination.");
+
+  $("#boardSelection").innerHTML=[0,1,2].map(i=>boardSelected[i]
+    ?`<div class="selection-slot filled"><strong>${DATA.evidence[boardSelected[i]].title}</strong><small>${DATA.evidence[boardSelected[i]].type}</small></div>`
+    :`<div class="selection-slot">Select supporting evidence</div>`
+  ).join("");
+
+  const result=$("#theoryResult");
+  if(state.caseTheory?.validated){
+    result.className="theory-result success";
+    result.innerHTML="<strong>Theory supported</strong><span>Your evidence supports the suspect, motive, and method. The timeline is unlocked.</span>";
+  }else if(!result.textContent.trim()){
+    result.className="theory-result";
   }
+}
+
+$("#testTheoryBtn").onclick=()=>{
+  const accused=$("#theoryAccusedSelect").value;
+  const motive=$("#theoryMotiveSelect").value;
+  const method=$("#theoryMethodSelect").value;
+  const evidence=[...boardSelected];
+
+  if(!accused||!motive||!method||evidence.length!==3){
+    showNotification("Theory incomplete","Choose a suspect, motive, method, and exactly three supporting pieces of evidence.");
+    return;
+  }
+
+  const pillars={
+    accused:supportsTheoryPillar("accused",accused,evidence),
+    motive:supportsTheoryPillar("motive",motive,evidence),
+    method:supportsTheoryPillar("method",method,evidence)
+  };
+  const supportedCount=Object.values(pillars).filter(Boolean).length;
+  const validated=supportedCount===3;
+
+  state.caseTheory={accused,motive,method,evidence,validated};
+
+  const result=$("#theoryResult");
+  if(validated){
+    result.className="theory-result success";
+    result.innerHTML="<strong>Theory supported</strong><span>Your three clues collectively support who did it, why, and how. Reconstruct the timeline next.</span>";
+    if(!state.activities.includes("Preliminary case theory supported by evidence.")){
+      addActivity("Preliminary case theory supported by evidence.");
+    }
+    showNotification("Timeline unlocked","Your preliminary theory is supported by the evidence. Reconstruct the night to test it.");
+  }else{
+    result.className="theory-result error";
+    result.innerHTML=`<strong>Theory needs more support</strong><span>Your selected evidence currently supports ${supportedCount} of 3 pillars. Reconsider the suspect, motive, method, or evidence.</span>`;
+    saveState();
+  }
+
   updateUI();
 };
