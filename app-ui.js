@@ -29,7 +29,7 @@ function unlocks(){
   return {
     reports: interviewsComplete,
     mansion: reportsComplete,
-    board: reportsComplete && manorProgress && state.collected.length>=6,
+    board: reportsComplete && manorProgress,
     timeline: state.deductions.length>=2,
     accuse: state.timelineSolved
   }
@@ -96,6 +96,9 @@ function navigate(view){
     showNotification("Section locked","Continue your current investigation objective to unlock this section.");
     return;
   }
+  const sceneSynced=view==="scene" && typeof syncImageOnlySceneEvidence==="function"
+    ? syncImageOnlySceneEvidence()
+    : false;
   currentView=view;
   $$(".view").forEach(v=>v.classList.remove("active"));
   $(`#view-${view}`).classList.add("active");
@@ -103,6 +106,7 @@ function navigate(view){
   const titles={briefing:"The Last Toast",scene:"Crime Scene",mansion:"Blackwood Manor",suspects:"Suspect Interviews",evidence:"Evidence Locker",reports:"Forensic Reports",board:"Evidence Board",timeline:"Night Timeline",accuse:"Final Accusation"};
   $("#viewTitle").textContent=titles[view]||"CASEFILE";
   $("#sidebar").classList.remove("open");
+  if(sceneSynced) updateUI();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 $$(".nav-item").forEach(b=>b.onclick=()=>navigate(b.dataset.view));
