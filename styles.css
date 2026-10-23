@@ -173,6 +173,19 @@ button{cursor:pointer}
 .deduction{padding:11px;border-left:2px solid var(--accent);background:#0e1217}
 .deduction strong{font-size:12px}
 .deduction p{font-size:10px;margin:3px 0 0}
+.theory-form{display:grid;gap:13px;margin-top:14px}
+.theory-form label>span{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#aeb4bd;margin-bottom:6px}
+.theory-form select{width:100%;border:1px solid var(--line);background:#0d1117;color:#e8e8e8;border-radius:10px;padding:11px 12px}
+.theory-form select:focus{outline:2px solid rgba(215,178,109,.35);outline-offset:2px}
+.theory-panel .selection-slot{flex-direction:column;align-items:flex-start;justify-content:center;gap:3px}
+.theory-panel .selection-slot strong{font-size:11px;color:#e7e7e7}
+.theory-panel .selection-slot small{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:#7f8791}
+.board-evidence-type{display:block;margin-top:10px;font-size:8px;text-transform:uppercase;letter-spacing:.12em;color:#7b6d59}
+.theory-result{display:none;margin-top:14px;padding:12px;border-radius:10px;font-size:11px;line-height:1.5}
+.theory-result strong,.theory-result span{display:block}
+.theory-result strong{margin-bottom:4px}
+.theory-result.success{display:block;border:1px solid #355844;background:#112019;color:#91c4a0}
+.theory-result.error{display:block;border:1px solid #683f3c;background:#241514;color:#d18d87}
 .timeline-wrap{max-width:900px;margin:0 auto}
 .timeline-list{display:flex;flex-direction:column;gap:10px}
 .timeline-item{display:grid;grid-template-columns:52px 82px 1fr auto;align-items:center;gap:14px;border:1px solid var(--line);background:#12161d;border-radius:14px;padding:13px 15px;cursor:grab}
