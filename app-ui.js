@@ -4,11 +4,10 @@ function progressData(){
   const interviews = state.interviewed.length/DATA.suspects.length;
   const reports = state.reportsRead.length/DATA.reports.length;
   const theory = (state.caseTheory?.validated || state.deductions.length>=2) ? 1 : 0;
-  const timeline = state.timelineSolved?1:0;
   const completed = state.complete?1:0;
-  let p = Math.round(scene*10 + rooms*15 + interviews*15 + reports*15 + theory*15 + timeline*15 + completed*15);
+  let p = Math.round(scene*10 + rooms*20 + interviews*15 + reports*15 + theory*20 + completed*20);
   p=Math.min(100,p);
-  return {p,scene,rooms,interviews,reports,theory,deductions:theory,timeline,completed};
+  return {p,scene,rooms,interviews,reports,theory,deductions:theory,completed};
 }
 function phase(){
   const d=progressData();
@@ -17,9 +16,8 @@ function phase(){
   if(d.reports<1) return [4,"Review Forensic Reports"];
   if(d.rooms<.5) return [5,"Search the Manor"];
   if(!d.theory) return [7,"Build Your Theory"];
-  if(!d.timeline) return [8,"Reconstruct the Night"];
-  if(!d.completed) return [9,"Make Your Accusation"];
-  return [9,"Case Closed"];
+  if(!d.completed) return [8,"Make Your Accusation"];
+  return [8,"Case Closed"];
 }
 function unlocks(){
   const d=progressData();
@@ -30,8 +28,7 @@ function unlocks(){
     reports: interviewsComplete,
     mansion: reportsComplete,
     board: reportsComplete && manorProgress,
-    timeline: Boolean(state.caseTheory?.validated) || state.deductions.length>=2,
-    accuse: state.timelineSolved
+    accuse: Boolean(state.caseTheory?.validated) || state.deductions.length>=2
   }
 }
 function objective(){
@@ -41,8 +38,7 @@ function objective(){
   if(d.reports<1) return ["Review the forensic reports","Forensics has returned the Toxicology Report and Latent Print Report. Review both before continuing the scene search.",DATA.reports.map(r=>`Review ${r.title}`),DATA.reports.map(r=>state.reportsRead.includes(r.id))];
   if(d.rooms<.5) return ["Search the manor","Use the suspect statements and forensic findings to test rooms, records, and objects around Blackwood Manor.",["Search 3 rooms","Collect 6 clues"],[state.roomsSearched.length>=3,state.collected.length>=6]];
   if(!d.theory) return ["Build your case theory","Choose who killed Adrian, the motive, and the method, then support the theory with exactly three pieces of evidence.",["Name the suspect","Choose the motive","Choose the method","Select 3 supporting clues"],[Boolean(state.caseTheory?.accused),Boolean(state.caseTheory?.motive),Boolean(state.caseTheory?.method),(state.caseTheory?.evidence||[]).length===3]];
-  if(!d.timeline) return ["Reconstruct the night","Put the recovered events in chronological order.",["Solve the timeline"],[state.timelineSolved]];
-  if(!d.completed) return ["Build your accusation","Name the killer, motive, method, and three supporting clues.",["Submit your final accusation"],[false]];
+  if(!d.completed) return ["Build your accusation","Your supported case theory is ready. Submit the final accusation and close the case.",["Submit your final accusation"],[false]];
   return ["Case closed","You reconstructed the murder of Adrian Blackwood.",["Review the final case file"],[true]];
 }
 
@@ -58,7 +54,7 @@ function updateUI(){
   $("#hintCount").textContent=state.hints;
 
   const u=unlocks();
-  [["mansion",u.mansion],["reports",u.reports],["board",u.board],["timeline",u.timeline],["accuse",u.accuse]].forEach(([view,ok])=>{
+  [["mansion",u.mansion],["reports",u.reports],["board",u.board],["accuse",u.accuse]].forEach(([view,ok])=>{
     const btn=$(`.nav-item[data-view="${view}"]`);
     if(!btn) return;
     btn.classList.toggle("locked",!ok);
@@ -92,7 +88,7 @@ function renderActivity(){
 }
 function navigate(view){
   const u=unlocks();
-  if(["mansion","reports","board","timeline","accuse"].includes(view) && !u[view]){
+  if(["mansion","reports","board","accuse"].includes(view) && !u[view]){
     showNotification("Section locked","Continue your current investigation objective to unlock this section.");
     return;
   }
@@ -103,7 +99,7 @@ function navigate(view){
   $$(".view").forEach(v=>v.classList.remove("active"));
   $(`#view-${view}`).classList.add("active");
   $$(".nav-item").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
-  const titles={briefing:"The Last Toast",scene:"Crime Scene",mansion:"Blackwood Manor",suspects:"Suspect Interviews",evidence:"Evidence Locker",reports:"Forensic Reports",board:"Build Your Theory",timeline:"Night Timeline",accuse:"Final Accusation"};
+  const titles={briefing:"The Last Toast",scene:"Crime Scene",mansion:"Blackwood Manor",suspects:"Suspect Interviews",evidence:"Evidence Locker",reports:"Forensic Reports",board:"Build Your Theory",accuse:"Final Accusation"};
   $("#viewTitle").textContent=titles[view]||"CASEFILE";
   $("#sidebar").classList.remove("open");
   if(sceneSynced) updateUI();
