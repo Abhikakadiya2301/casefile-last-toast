@@ -52,19 +52,31 @@ $("#checkTimelineBtn").onclick=()=>{
 function populateAccusation(){
   const sel=$("#accusedSelect");
   if(sel.options.length===1) DATA.suspects.forEach(s=>sel.add(new Option(s.name,s.id)));
+
+  if(!sel.dataset.theoryHydrated && state.caseTheory?.validated){
+    sel.value=state.caseTheory.accused||"";
+    $("#motiveSelect").value=state.caseTheory.motive||"";
+    $("#methodSelect").value=state.caseTheory.method||"";
+    sel.dataset.theoryHydrated="true";
+  }
+
   const critical=state.collected.filter(id=>DATA.evidence[id].critical);
   const box=$("#accusationEvidence");
-  const checked=[...box.querySelectorAll("input:checked")].map(x=>x.value);
+  const current=[...box.querySelectorAll("input:checked")].map(x=>x.value);
+  const theoryEvidence=(state.caseTheory?.validated?state.caseTheory.evidence:[])
+    .filter(id=>critical.includes(id));
+  const checked=current.length?current:theoryEvidence.slice(0,3);
+
   box.innerHTML=critical.map(id=>`<label class="accuse-evidence"><input type="checkbox" value="${id}" ${checked.includes(id)?"checked":""}/><span>${DATA.evidence[id].title}</span></label>`).join("");
-  $$(`#accusationEvidence input`).forEach(inp=>inp.onchange=()=>{
-    const checks=$$("#accusationEvidence input:checked");
+  $(`#accusationEvidence input`).forEach(inp=>inp.onchange=()=>{
+    const checks=$("#accusationEvidence input:checked");
     if(checks.length>3){inp.checked=false;showNotification("Three clues only","Choose the three strongest pieces of evidence.");}
   });
 }
 function renderReadiness(){
   const p=progressData();
   const rows=[
-    ["Crime scene",p.scene],["Rooms searched",p.rooms],["Suspects interviewed",p.interviews],["Reports reviewed",p.reports],["Deductions",p.deductions],["Timeline",p.timeline]
+    ["Crime scene",p.scene],["Rooms searched",p.rooms],["Suspects interviewed",p.interviews],["Reports reviewed",p.reports],["Case theory",p.theory],["Timeline",p.timeline]
   ];
   $("#readinessRows").innerHTML=rows.map(([l,v])=>`<div class="readiness-row"><header><span>${l}</span><b>${Math.round(v*100)}%</b></header><div class="mini-track"><i style="width:${v*100}%"></i></div></div>`).join("");
   const ready=Math.round(rows.reduce((a,[,v])=>a+v,0)/rows.length*100);
@@ -121,7 +133,7 @@ $("#hintBtn").onclick=()=>{
   else if(state.interviewed.length<DATA.suspects.length) hint="Interview every suspect first. Victor's account of his movements will matter later.";
   else if(state.reportsRead.length<DATA.reports.length) hint="Review both the Toxicology Report and Latent Print Report before searching the manor.";
   else if(state.roomsSearched.length<3) hint="The security office, library, and guest lounge contain especially useful evidence.";
-  else if(state.deductions.length<2) hint="Try connecting Adrian's message, Victor's access log, and the security override.";
+  else if(!d.theory) hint="Build one theory that explains who killed Adrian, why they did it, and how. Choose three clues that collectively support those three parts.";
   else if(!state.timelineSolved) hint="The times are literal. Put the message before the camera outage, then follow the security records.";
   else hint="A strong accusation should prove motive, presence, and method with separate pieces of evidence.";
   state.hints--; addActivity("Consulted detective for a hint."); showNotification("Detective consultation",hint); updateUI();
