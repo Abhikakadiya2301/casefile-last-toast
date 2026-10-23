@@ -52,6 +52,10 @@ function renderRooms(){
     if(!state.roomsSearched.includes(r.id)){
       state.roomsSearched.push(r.id);
       collect(r.clue,false);
+      if(r.id==="security" && !state.collected.includes("cctv_override")){
+        state.collected.push("cctv_override");
+        addActivity(`Evidence collected: ${DATA.evidence.cctv_override.title}.`);
+      }
       showNotification("Room searched",`${r.name}: ${DATA.evidence[r.clue].summary}`);
       if(state.roomsSearched.length===3) showNotification("Evidence analysis available","You have enough room evidence to begin comparing the suspects' statements with the forensic record.");
     }
@@ -143,19 +147,19 @@ function openEvidence(id,roomId=null){
 $("#modalClose").onclick=()=>$("#modal").close();
 
 function renderReports(){
-  $("#reportGrid").innerHTML=DATA.reports.map(r=>`<article class="report-card">
+  $("#reportGrid").innerHTML=DATA.reports.map(r=>`<article class="report-card report-image-card ${state.reportsRead.includes(r.id)?"reviewed":""}">
     <h3>${r.title}</h3>
-    <ul>${r.body.map(x=>`<li>${x}</li>`).join("")}</ul>
+    <img class="report-image-art" src="${r.image}" alt="${r.title}" loading="lazy" decoding="async">
     <button class="ghost-btn report-read" data-report="${r.id}">${state.reportsRead.includes(r.id)?"Reviewed":"Mark reviewed"}</button>
     <span class="report-stamp">${r.stamp}</span>
   </article>`).join("");
-  $$(".report-read").forEach(b=>b.onclick=()=>{
+  $(".report-read").forEach(b=>b.onclick=()=>{
     const id=b.dataset.report;
     if(!state.reportsRead.includes(id)){
       state.reportsRead.push(id);
       collect(id,false);
       addActivity(`Reviewed report: ${DATA.reports.find(r=>r.id===id).title}.`);
-      if(state.reportsRead.length===2) showNotification("Evidence board unlocked","You now have enough verified evidence to start connecting clues.");
+      if(state.reportsRead.length===DATA.reports.length) showNotification("Evidence board unlocked","Both forensic reports are reviewed. You can now start connecting clues.");
       updateUI();
     }
   });
