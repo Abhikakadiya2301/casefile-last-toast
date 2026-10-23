@@ -117,10 +117,10 @@ $("#caseNotes").addEventListener("input",e=>{state.notes=e.target.value;saveStat
 $("#hintBtn").onclick=()=>{
   if(state.hints<=0){showNotification("No consultations left","You have used all three detective consultations.");return}
   const d=progressData(); let hint="";
-  if(d.scene<1) hint="The study contains exactly three points worth inspecting before you leave.";
-  else if(state.collected.length<6) hint="The security office and library contain unusually important records.";
-  else if(state.interviewed.length<5) hint="Ask Victor where he was after 10:15 PM, then compare that claim with the access log.";
-  else if(state.reportsRead.length<3) hint="Read the toxicology and security reports together. The cause of death and the camera outage overlap.";
+  if(d.scene<1) hint="Open the Crime Scene to log the initial evidence before moving deeper into the case.";
+  else if(state.interviewed.length<DATA.suspects.length) hint="Interview every suspect first. Victor's account of his movements will matter later.";
+  else if(state.reportsRead.length<DATA.reports.length) hint="Review both the Toxicology Report and Latent Print Report before searching the manor.";
+  else if(state.roomsSearched.length<3) hint="The security office, library, and guest lounge contain especially useful evidence.";
   else if(state.deductions.length<2) hint="Try connecting Adrian's message, Victor's access log, and the security override.";
   else if(!state.timelineSolved) hint="The times are literal. Put the message before the camera outage, then follow the security records.";
   else hint="A strong accusation should prove motive, presence, and method with separate pieces of evidence.";
