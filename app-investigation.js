@@ -19,7 +19,7 @@ $$("[data-scene]").forEach(btn=>btn.onclick=()=>{
   const evidenceId=SCENE_EVIDENCE[hotspotId]||hotspotId;
   if(!state.sceneSeen.includes(hotspotId)){
     state.sceneSeen.push(hotspotId); collect(evidenceId,false);
-    if(state.sceneSeen.length===3) showNotification("Case update","The drawer reveals Adrian summoned Victor to the study. Search the manor for context.");
+    if(state.sceneSeen.length===3) showNotification("Interviews unlocked","The initial scene is documented. Question all five suspects before searching the manor.");
   }
   openEvidence(evidenceId);
 });
@@ -53,7 +53,7 @@ function renderRooms(){
       state.roomsSearched.push(r.id);
       collect(r.clue,false);
       showNotification("Room searched",`${r.name}: ${DATA.evidence[r.clue].summary}`);
-      if(state.roomsSearched.length===3) showNotification("Interviews advised","You have enough context to begin testing the guests' stories.");
+      if(state.roomsSearched.length===3) showNotification("Evidence analysis available","You have enough room evidence to begin comparing the suspects' statements with the forensic record.");
     }
     openEvidence(r.clue,r.id);
     updateUI();
@@ -81,7 +81,7 @@ function openInterview(id){
   if(!state.interviewed.includes(id)){
     state.interviewed.push(id);
     addActivity(`Interviewed ${s.name}.`);
-    if(state.interviewed.length===3 && state.collected.length>=6) showNotification("Forensics unlocked","Preliminary lab and security reports are now available.");
+    if(state.interviewed.length===DATA.suspects.length) showNotification("Mansion unlocked","All five initial interviews are complete. Search Blackwood Manor and test their stories against the evidence.");
   }
   const canConfront=id==="victor" && state.collected.includes("access_log");
   $("#modalContent").innerHTML=`
