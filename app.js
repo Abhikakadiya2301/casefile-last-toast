@@ -84,6 +84,7 @@ const defaultState = {
   confrontationSeen:false,
   reportsRead:[],
   deductions:[],
+  caseTheory:{accused:"",motive:"",method:"",evidence:[],validated:false},
   timelineSolved:false,
   collected:[],
   activities:["Case opened. Adrian Blackwood found dead in his study."],
@@ -95,7 +96,7 @@ const defaultState = {
 let state = loadState();
 state.reportsRead = state.reportsRead.filter(id => DATA.reports.some(report => report.id === id));
 let currentView = "briefing";
-let boardSelected = [];
+let boardSelected = Array.isArray(state.caseTheory?.evidence) ? [...state.caseTheory.evidence] : [];
 let timelineOrder = [...DATA.timeline].sort(()=>Math.random()-.5).map(e=>e.id);
 let revealIndex = 0;
 
