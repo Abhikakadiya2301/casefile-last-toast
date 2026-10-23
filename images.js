@@ -74,7 +74,7 @@
   }
 
   function enableEvidenceImageViewing() {
-    document.querySelectorAll('.evidence-thumb-art,.modal-art').forEach(image => {
+    document.querySelectorAll('.evidence-thumb-art,.modal-art,.report-image-art').forEach(image => {
       if (image.dataset.fullscreenBound === 'true') return;
       image.dataset.fullscreenBound = 'true';
       image.tabIndex = 0;
