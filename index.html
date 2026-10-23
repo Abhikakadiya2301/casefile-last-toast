@@ -200,24 +200,52 @@
 
         <section class="view" id="view-board">
           <div class="section-intro">
-            <div><p class="eyebrow">STEP 7 · CONNECT THE CLUES</p><h3>Evidence Board</h3></div>
-            <p>Select evidence cards that belong together, then test your deduction.</p>
+            <div><p class="eyebrow">STEP 7 · BUILD YOUR THEORY</p><h3>Who killed Adrian?</h3></div>
+            <p>Form a preliminary case theory, then support it with exactly three pieces of evidence.</p>
           </div>
-          <div class="board-layout">
+          <div class="board-layout theory-board-layout">
             <div>
               <div class="board-instructions panel">
-                <strong>How it works</strong>
-                <p>Select up to three clues. Correct combinations unlock deductions and move the case forward.</p>
+                <strong>Build a supported theory</strong>
+                <p>Choose the killer, motive, and method. Then select exactly three evidence cards that together support your theory.</p>
               </div>
               <div id="boardEvidence" class="board-evidence"></div>
             </div>
-            <aside class="deduction-panel panel">
-              <p class="eyebrow">YOUR CONNECTION</p>
-              <div id="boardSelection" class="selection-slots"></div>
-              <button id="testDeductionBtn" class="primary-btn full">Test deduction</button>
+            <aside class="deduction-panel panel theory-panel">
+              <p class="eyebrow">YOUR CASE THEORY</p>
+              <div class="theory-form">
+                <label>
+                  <span>Who killed Adrian?</span>
+                  <select id="theoryAccusedSelect">
+                    <option value="">Choose a suspect</option>
+                  </select>
+                </label>
+                <label>
+                  <span>What was the motive?</span>
+                  <select id="theoryMotiveSelect">
+                    <option value="">Choose a motive</option>
+                    <option value="inheritance">Inheritance dispute</option>
+                    <option value="blackmail">Personal blackmail</option>
+                    <option value="embezzlement">Hide financial embezzlement</option>
+                    <option value="revenge">Revenge for an old betrayal</option>
+                  </select>
+                </label>
+                <label>
+                  <span>How was Adrian killed?</span>
+                  <select id="theoryMethodSelect">
+                    <option value="">Choose a method</option>
+                    <option value="blade">Letter opener attack</option>
+                    <option value="toxin">Toxic agent introduced into his whiskey</option>
+                    <option value="medication">Medication mix-up</option>
+                    <option value="fall">Fatal fall staged in the study</option>
+                  </select>
+                </label>
+              </div>
               <div class="divider"></div>
-              <p class="eyebrow">DEDUCTIONS</p>
-              <div id="deductionList" class="deduction-list"></div>
+              <p class="eyebrow">SUPPORTING EVIDENCE · 3 REQUIRED</p>
+              <div id="boardSelection" class="selection-slots"></div>
+              <button id="testTheoryBtn" class="primary-btn full">Test case theory</button>
+              <div id="theoryResult" class="theory-result" aria-live="polite"></div>
             </aside>
           </div>
         </section>
