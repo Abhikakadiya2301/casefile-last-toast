@@ -1,54 +1,3 @@
-function renderTimeline(){
-  const map=Object.fromEntries(DATA.timeline.map(x=>[x.id,x]));
-  $("#timelineList").innerHTML=timelineOrder.map((id,i)=>{
-    const e=map[id];return `<div class="timeline-item" draggable="true" data-timeid="${id}">
-      <span class="timeline-index">${String(i+1).padStart(2,"0")}</span>
-      <span class="timeline-time">${e.time}</span>
-      <div class="timeline-copy"><strong>${e.title}</strong><p>${e.desc}</p></div>
-      <div class="timeline-move"><button data-up="${id}" aria-label="Move up">↑</button><button data-down="${id}" aria-label="Move down">↓</button></div>
-    </div>`;
-  }).join("");
-  initDrag();
-  $$("[data-up]").forEach(b=>b.onclick=()=>moveTimeline(b.dataset.up,-1));
-  $$("[data-down]").forEach(b=>b.onclick=()=>moveTimeline(b.dataset.down,1));
-}
-function moveTimeline(id,delta){
-  const i=timelineOrder.indexOf(id),j=i+delta;
-  if(j<0||j>=timelineOrder.length)return;
-  [timelineOrder[i],timelineOrder[j]]=[timelineOrder[j],timelineOrder[i]];
-  renderTimeline();
-}
-function initDrag(){
-  let dragged=null;
-  $$(".timeline-item").forEach(item=>{
-    item.addEventListener("dragstart",()=>{dragged=item.dataset.timeid;item.classList.add("dragging")});
-    item.addEventListener("dragend",()=>item.classList.remove("dragging"));
-    item.addEventListener("dragover",e=>e.preventDefault());
-    item.addEventListener("drop",e=>{
-      e.preventDefault();
-      const target=item.dataset.timeid;
-      if(!dragged||dragged===target)return;
-      const from=timelineOrder.indexOf(dragged),to=timelineOrder.indexOf(target);
-      timelineOrder.splice(from,1);timelineOrder.splice(to,0,dragged);renderTimeline();
-    });
-  });
-}
-$("#shuffleTimelineBtn").onclick=()=>{timelineOrder.sort(()=>Math.random()-.5);renderTimeline();$("#timelineResult").className="timeline-result";$("#timelineResult").textContent=""};
-$("#checkTimelineBtn").onclick=()=>{
-  const correct=DATA.timeline.map(x=>x.id);
-  const errors=timelineOrder.reduce((n,id,i)=>n+(id!==correct[i]),0);
-  const box=$("#timelineResult");
-  if(errors===0){
-    box.className="timeline-result success";box.textContent="Timeline confirmed. Victor's claimed alibi cannot be true during the critical 10:29–10:46 window.";
-    if(!state.timelineSolved){
-      state.timelineSolved=true;addActivity("Night timeline reconstructed.");showNotification("Final accusation unlocked","Your reconstruction exposes a broken alibi. Build your case.");
-    }
-  }else{
-    box.className="timeline-result error";box.textContent=`${errors} event${errors===1?" is":"s are"} out of position. Use the timestamps and evidence to try again.`;
-  }
-  updateUI();
-};
-
 function populateAccusation(){
   const sel=$("#accusedSelect");
   if(sel.options.length===1) DATA.suspects.forEach(s=>sel.add(new Option(s.name,s.id)));
@@ -76,7 +25,7 @@ function populateAccusation(){
 function renderReadiness(){
   const p=progressData();
   const rows=[
-    ["Crime scene",p.scene],["Rooms searched",p.rooms],["Suspects interviewed",p.interviews],["Reports reviewed",p.reports],["Case theory",p.theory],["Timeline",p.timeline]
+    ["Crime scene",p.scene],["Rooms searched",p.rooms],["Suspects interviewed",p.interviews],["Reports reviewed",p.reports],["Case theory",p.theory]
   ];
   $("#readinessRows").innerHTML=rows.map(([l,v])=>`<div class="readiness-row"><header><span>${l}</span><b>${Math.round(v*100)}%</b></header><div class="mini-track"><i style="width:${v*100}%"></i></div></div>`).join("");
   const ready=Math.round(rows.reduce((a,[,v])=>a+v,0)/rows.length*100);
@@ -134,14 +83,13 @@ $("#hintBtn").onclick=()=>{
   else if(state.reportsRead.length<DATA.reports.length) hint="Review both the Toxicology Report and Latent Print Report before searching the manor.";
   else if(state.roomsSearched.length<3) hint="The security office, library, and guest lounge contain especially useful evidence.";
   else if(!d.theory) hint="Build one theory that explains who killed Adrian, why they did it, and how. Choose three clues that collectively support those three parts.";
-  else if(!state.timelineSolved) hint="The times are literal. Put the message before the camera outage, then follow the security records.";
-  else hint="A strong accusation should prove motive, presence, and method with separate pieces of evidence.";
+  else hint="Your supported theory is ready. Use the final accusation to lock in the killer, motive, method, and three strongest clues.";
   state.hints--; addActivity("Consulted detective for a hint."); showNotification("Detective consultation",hint); updateUI();
 };
 
 $("#resetBtn").onclick=()=>{
   if(confirm("Reset all CASEFILE progress on this device?")){
-    localStorage.removeItem("casefile-state");state={...defaultState,sceneSeen:[],roomsSearched:[],interviewed:[],reportsRead:[],deductions:[],collected:[],activities:[defaultState.activities[0]]};boardSelected=[];timelineOrder=[...DATA.timeline].sort(()=>Math.random()-.5).map(e=>e.id);navigate("briefing");updateUI();renderTimeline();
+    localStorage.removeItem("casefile-state");state={...defaultState,sceneSeen:[],roomsSearched:[],interviewed:[],reportsRead:[],deductions:[],caseTheory:{accused:"",motive:"",method:"",evidence:[],validated:false},collected:[],activities:[defaultState.activities[0]]};boardSelected=[];navigate("briefing");updateUI();
   }
 };
 
@@ -149,5 +97,4 @@ document.addEventListener("keydown",e=>{
   if(e.key==="Escape") $("#sidebar").classList.remove("open");
 });
 
-renderTimeline();
 updateUI();
