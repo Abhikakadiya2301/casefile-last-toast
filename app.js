@@ -57,9 +57,8 @@ const DATA = {
     text:{title:"Adrian's final message",type:"digital",critical:true,icon:"TM",summary:"10:05 PM: 'Victor. Study at 10:30. Bring the ledger. No excuses.'",detail:"The message was delivered and opened on Victor's phone at 10:07 PM."}
   },
   reports:[
-    {id:"lab",title:"Toxicology",body:["Cause of death: acute exposure to fictional compound VX-17.","Compound detected in both blood sample and whiskey residue.","Estimated collapse occurred between 10:40 PM and 10:50 PM."],stamp:"CAUSE REVISED"},
-    {id:"cctv_override",title:"Security Systems",body:["East corridor camera manually disabled at 10:29 PM.","Feed restored at 10:46 PM.","Override authenticated with Victor Hale's admin token."],stamp:"AUTHENTICATED"},
-    {id:"print",title:"Latent Prints",body:["Partial print recovered from lower base of whiskey tumbler.","Comparison identifies Victor Hale.","Upper rim shows signs of wiping."],stamp:"MATCH"}
+    {id:"lab",title:"Toxicology Report",image:"assets/Toxicology report.png",stamp:"CAUSE REVISED"},
+    {id:"print",title:"Latent Print Report",image:"assets/Latent print report.png",stamp:"MATCH"}
   ],
   timeline:[
     {id:"dinner",time:"9:15 PM",title:"Dinner ends",desc:"Guests leave the dining room."},
@@ -94,6 +93,7 @@ const defaultState = {
 };
 
 let state = loadState();
+state.reportsRead = state.reportsRead.filter(id => DATA.reports.some(report => report.id === id));
 let currentView = "briefing";
 let boardSelected = [];
 let timelineOrder = [...DATA.timeline].sort(()=>Math.random()-.5).map(e=>e.id);
