@@ -19,7 +19,7 @@ $$("[data-scene]").forEach(btn=>btn.onclick=()=>{
   const evidenceId=SCENE_EVIDENCE[hotspotId]||hotspotId;
   if(!state.sceneSeen.includes(hotspotId)){
     state.sceneSeen.push(hotspotId); collect(evidenceId,false);
-    if(state.sceneSeen.length===3) showNotification("Interviews unlocked","The initial scene is documented. Question all five suspects before searching the manor.");
+    if(state.sceneSeen.length===3) showNotification("Interviews unlocked","The initial scene is documented. Question all five suspects while forensics processes the physical evidence.");
   }
   openEvidence(evidenceId);
 });
@@ -57,7 +57,7 @@ function renderRooms(){
         addActivity(`Evidence collected: ${DATA.evidence.cctv_override.title}.`);
       }
       showNotification("Room searched",`${r.name}: ${DATA.evidence[r.clue].summary}`);
-      if(state.roomsSearched.length===3) showNotification("Evidence analysis available","You have enough room evidence to begin comparing the suspects' statements with the forensic record.");
+      if(state.roomsSearched.length===3) showNotification("Evidence board unlocked","You now have enough room evidence and forensic findings to start connecting the clues.");
     }
     openEvidence(r.clue,r.id);
     updateUI();
@@ -85,7 +85,7 @@ function openInterview(id){
   if(!state.interviewed.includes(id)){
     state.interviewed.push(id);
     addActivity(`Interviewed ${s.name}.`);
-    if(state.interviewed.length===DATA.suspects.length) showNotification("Mansion unlocked","All five initial interviews are complete. Search Blackwood Manor and test their stories against the evidence.");
+    if(state.interviewed.length===DATA.suspects.length) showNotification("Forensic reports ready","All five initial interviews are complete. Toxicology and latent print results are now available in Step 04.");
   }
   const canConfront=id==="victor" && state.collected.includes("access_log");
   $("#modalContent").innerHTML=`
@@ -159,7 +159,7 @@ function renderReports(){
       state.reportsRead.push(id);
       collect(id,false);
       addActivity(`Reviewed report: ${DATA.reports.find(r=>r.id===id).title}.`);
-      if(state.reportsRead.length===DATA.reports.length) showNotification("Evidence board unlocked","Both forensic reports are reviewed. You can now start connecting clues.");
+      if(state.reportsRead.length===DATA.reports.length) showNotification("Mansion unlocked","Both forensic reports are reviewed. Search Blackwood Manor and test the suspects' statements against the evidence.");
       updateUI();
     }
   });
