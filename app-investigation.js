@@ -7,6 +7,65 @@ if(state.collected.includes("desk")){
   saveState();
 }
 
+// The Crime Scene is intentionally image-only. Keep its evidence/state in sync
+// so fresh games and older saves can still use the Evidence Board.
+function syncImageOnlySceneEvidence({silent=false}={}){
+  const sceneIds=["body","glass","desk"];
+  const evidenceIds=["body","glass","text"];
+  let changed=false;
+
+  sceneIds.forEach(id=>{
+    if(!state.sceneSeen.includes(id)){
+      state.sceneSeen.push(id);
+      changed=true;
+    }
+  });
+
+  evidenceIds.forEach(id=>{
+    if(!state.collected.includes(id)){
+      state.collected.push(id);
+      changed=true;
+    }
+  });
+
+  // Repair room/report evidence for saves created before recent flow changes.
+  state.roomsSearched.forEach(roomId=>{
+    const room=DATA.rooms.find(r=>r.id===roomId);
+    if(room && !state.collected.includes(room.clue)){
+      state.collected.push(room.clue);
+      changed=true;
+    }
+  });
+
+  state.reportsRead.forEach(reportId=>{
+    if(DATA.evidence[reportId] && !state.collected.includes(reportId)){
+      state.collected.push(reportId);
+      changed=true;
+    }
+  });
+
+  if(state.roomsSearched.includes("security") && !state.collected.includes("cctv_override")){
+    state.collected.push("cctv_override");
+    changed=true;
+  }
+
+  if(changed){
+    if(!silent && !state.activities.includes("Crime scene evidence logged from the initial examination.")){
+      state.activities.unshift("Crime scene evidence logged from the initial examination.");
+      state.activities=state.activities.slice(0,12);
+    }
+    saveState();
+  }
+  return changed;
+}
+
+const progressedBeyondScene=
+  state.interviewed.length>0 ||
+  state.reportsRead.length>0 ||
+  state.roomsSearched.length>0 ||
+  state.deductions.length>0;
+if(progressedBeyondScene) syncImageOnlySceneEvidence({silent:true});
+
 function renderScene(){
   const checklist=$("#sceneChecklist");
   if(!checklist) return;
@@ -166,13 +225,13 @@ function renderReports(){
 }
 
 function renderBoard(){
-  const usable=state.collected.filter(id=>DATA.evidence[id].critical || ["medical_bag","call_log"].includes(id));
-  $("#boardEvidence").innerHTML=usable.map((id,i)=>{
+  const usable=state.collected.filter(id=>DATA.evidence[id] && (DATA.evidence[id].critical || ["medical_bag","call_log"].includes(id)));
+  $("#boardEvidence").innerHTML=usable.length?usable.map((id,i)=>{
     const e=DATA.evidence[id];
     return `<button class="board-card ${boardSelected.includes(id)?"selected":""}" style="--rot:${[-1.2,.8,-.4,1.1,-.8,.5][i%6]}deg" data-board="${id}">
       <strong>${e.title}</strong><small>${e.summary}</small>
     </button>`;
-  }).join("");
+  }).join(""):`<div class="empty-state">No usable evidence is available yet. Continue the investigation.</div>`;
   $$(".board-card").forEach(b=>b.onclick=()=>{
     const id=b.dataset.board;
     if(boardSelected.includes(id)) boardSelected=boardSelected.filter(x=>x!==id);
