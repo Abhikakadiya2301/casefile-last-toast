@@ -283,7 +283,7 @@ function renderBoard(){
   const result=$("#theoryResult");
   if(state.caseTheory?.validated){
     result.className="theory-result success";
-    result.innerHTML="<strong>Theory supported</strong><span>Your evidence supports the suspect, motive, and method. The timeline is unlocked.</span>";
+    result.innerHTML="<strong>Theory supported</strong><span>Your evidence supports the suspect, motive, and method. The final accusation is unlocked.</span>";
   }else if(!result.textContent.trim()){
     result.className="theory-result";
   }
@@ -313,11 +313,11 @@ $("#testTheoryBtn").onclick=()=>{
   const result=$("#theoryResult");
   if(validated){
     result.className="theory-result success";
-    result.innerHTML="<strong>Theory supported</strong><span>Your three clues collectively support who did it, why, and how. Reconstruct the timeline next.</span>";
+    result.innerHTML="<strong>Theory supported</strong><span>Your three clues collectively support who did it, why, and how. You can now make the final accusation.</span>";
     if(!state.activities.includes("Preliminary case theory supported by evidence.")){
       addActivity("Preliminary case theory supported by evidence.");
     }
-    showNotification("Timeline unlocked","Your preliminary theory is supported by the evidence. Reconstruct the night to test it.");
+    showNotification("Final accusation unlocked","Your preliminary theory is supported by the evidence. Make your final accusation and close the case.");
   }else{
     result.className="theory-result error";
     result.innerHTML=`<strong>Theory needs more support</strong><span>Your selected evidence currently supports ${supportedCount} of 3 pillars. Reconsider the suspect, motive, method, or evidence.</span>`;
