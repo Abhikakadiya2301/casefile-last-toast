@@ -75,6 +75,7 @@ const defaultState = {
   reportsRead:[],
   deductions:[],
   caseTheory:{accused:"",motive:"",method:"",evidence:[],validated:false},
+  finalConfrontation:[],
   collected:[],
   activities:["Case opened. Adrian Blackwood found dead in his study."],
   hints:3,
@@ -100,6 +101,7 @@ function freshDefaultState(){
     reportsRead:[],
     deductions:[],
     caseTheory:{...defaultState.caseTheory,evidence:[]},
+    finalConfrontation:[],
     collected:[],
     activities:[defaultState.activities[0]]
   };
@@ -117,7 +119,8 @@ function loadState(){
     return {
       ...freshDefaultState(),
       ...saved,
-      caseTheory:{...defaultState.caseTheory,...(saved.caseTheory||{}),evidence:[...(saved.caseTheory?.evidence||[])]}
+      caseTheory:{...defaultState.caseTheory,...(saved.caseTheory||{}),evidence:[...(saved.caseTheory?.evidence||[])]},
+      finalConfrontation:[...(saved.finalConfrontation||[])]
     };
   }catch{
     return freshDefaultState();
