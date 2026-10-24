@@ -216,6 +216,50 @@ fieldset{border:0;padding:0;margin:0}
 .readiness-score{padding-top:18px;border-top:1px solid var(--line);text-align:center}
 .readiness-score strong{font:600 54px Georgia,serif;display:block;color:var(--accent)}
 .readiness-score span{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:#888f99}
+
+/* Step 08: final confrontation */
+.confrontation-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);gap:18px;align-items:start}
+.confrontation-stage{min-height:640px;background:radial-gradient(circle at 25% 10%,#252b34,#11151c 46%,#0b0e13 100%)}
+.confrontation-suspect{display:grid;grid-template-columns:180px 1fr;gap:22px;align-items:end;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.confrontation-portrait-wrap{position:relative;height:220px;border:1px solid #363e49;border-radius:14px;overflow:hidden;background:#0b0e13}
+.confrontation-portrait{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(.18) contrast(1.04)}
+.confrontation-portrait-wrap:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(7,9,12,.65),transparent 45%);pointer-events:none}
+.confrontation-status{position:absolute;left:10px;bottom:10px;z-index:1;font-size:8px;letter-spacing:.14em;border:1px solid #5a4932;background:rgba(10,12,15,.82);color:#c9aa70;border-radius:99px;padding:5px 7px}
+.confrontation-identity h3{font:600 clamp(30px,4vw,48px)/1 Georgia,serif;margin:5px 0 8px}
+.confrontation-opening{margin:20px 0;color:#aeb5be;line-height:1.65}
+.confrontation-opening p{margin:0}
+.confrontation-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0 22px}
+.confrontation-move{min-height:138px;border:1px solid #323a46;border-radius:13px;background:#0d1117;color:#e7e7e7;padding:14px;text-align:left;display:flex;flex-direction:column;align-items:flex-start;gap:7px;transition:.18s}
+.confrontation-move>span{font:700 20px Georgia,serif;color:#5c6470}
+.confrontation-move strong{font:600 15px Georgia,serif}
+.confrontation-move small{font-size:10px;line-height:1.45;color:#7f8792}
+.confrontation-move:not(:disabled):hover{border-color:#735d3a;transform:translateY(-2px)}
+.confrontation-move.completed{border-color:#355844;background:#101b15}
+.confrontation-move.completed>span,.confrontation-move.completed small{color:#75aa86}
+.confrontation-transcript{display:grid;gap:12px}
+.confrontation-empty{border:1px dashed #333b46;border-radius:12px;padding:24px;text-align:center;color:#707985;font-size:11px}
+.confrontation-entry{border:1px solid #2d343e;border-radius:13px;overflow:hidden;background:#0d1117}
+.confrontation-detective,.confrontation-response{padding:14px 16px}
+.confrontation-detective{border-bottom:1px solid #272e37;background:#11161d}
+.confrontation-response{border-left:3px solid #6d5736}
+.confrontation-entry span{display:block;font-size:8px;letter-spacing:.13em;color:#818996;margin-bottom:5px}
+.confrontation-entry p{margin:0;font-size:11px;line-height:1.6;color:#c3c8cf}
+.confrontation-entry p strong{color:#d4b475}
+.confrontation-response p{font:italic 15px/1.55 Georgia,serif;color:#e1ddd5}
+.confrontation-case{position:sticky;top:110px;height:max-content}
+.confrontation-theory{display:grid;gap:9px;margin-top:14px}
+.confrontation-theory>div{border:1px solid #2e3540;border-radius:10px;background:#0d1117;padding:10px 11px}
+.confrontation-theory span,.confrontation-evidence-item span{display:block;font-size:8px;text-transform:uppercase;letter-spacing:.12em;color:#727b86;margin-bottom:4px}
+.confrontation-theory strong{font-size:11px;line-height:1.4}
+.confrontation-evidence{display:grid;gap:8px;margin-top:12px}
+.confrontation-evidence-item{border-left:2px solid #6f5937;background:#0d1117;padding:9px 10px}
+.confrontation-evidence-item strong{font-size:10px;line-height:1.35}
+.confrontation-progress{display:flex;justify-content:space-between;align-items:center;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#8b939e;margin-bottom:8px}
+.confrontation-progress strong{font-size:12px;color:#e7e7e7}
+#confrontationProgressBar{transition:width .25s ease}
+#lockAccusationBtn{margin-top:16px}
+#lockAccusationBtn:disabled{opacity:.45;cursor:not-allowed}
+#reviseTheoryBtn{margin-top:9px}
 .notification{position:fixed;z-index:50;right:28px;top:104px;width:min(400px,calc(100vw - 40px));background:#171b22;border:1px solid #4c4130;border-radius:15px;box-shadow:var(--shadow);padding:15px 44px 15px 15px;display:flex;gap:12px;animation:slideIn .3s ease}
 @keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
 .notification.hidden{display:none}
@@ -267,8 +311,9 @@ fieldset{border:0;padding:0;margin:0}
   .views{padding:24px 18px 50px}
   .hero-image{height:460px}
   .hero-copy{left:28px;right:28px}
-  .dashboard-grid,.scene-layout,.board-layout,.accuse-grid{grid-template-columns:1fr}
-  .scene-sidebar,.deduction-panel,.readiness{position:static}
+  .dashboard-grid,.scene-layout,.board-layout,.accuse-grid,.confrontation-grid{grid-template-columns:1fr}
+  .scene-sidebar,.deduction-panel,.readiness,.confrontation-case{position:static}
+  .confrontation-actions{grid-template-columns:1fr 1fr 1fr}
   .room-grid{grid-template-columns:repeat(2,1fr)}
   .suspect-grid{grid-template-columns:repeat(2,1fr)}
   .evidence-grid{grid-template-columns:repeat(2,1fr)}
@@ -282,7 +327,10 @@ fieldset{border:0;padding:0;margin:0}
   .section-intro{align-items:flex-start;flex-direction:column;gap:10px}
   .hero-image{height:510px}
   .hero-copy h3{font-size:55px}
-  .dashboard-grid,.room-grid,.suspect-grid,.evidence-grid,.board-evidence,.accusation-evidence{grid-template-columns:1fr}
+  .dashboard-grid,.room-grid,.suspect-grid,.evidence-grid,.board-evidence,.accusation-evidence,.confrontation-actions{grid-template-columns:1fr}
+  .confrontation-suspect{grid-template-columns:110px 1fr;align-items:center}
+  .confrontation-portrait-wrap{height:145px}
+  .confrontation-move{min-height:0}
   .suspect-portrait{height:180px}
   .study-room,.scene-art{min-height:500px}
   .timeline-item{grid-template-columns:38px 65px 1fr}
