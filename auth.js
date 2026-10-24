@@ -249,11 +249,13 @@ form.addEventListener('submit', async event => {
     if (mode === 'signup') {
       const credential = await createUserWithEmailAndPassword(auth, email, password);
       if (name) await updateProfile(credential.user, { displayName: name });
+      currentUser = credential.user;
       renderUser(credential.user);
       showCaseLibrary(credential.user);
       setMessage('Account created. Choose a case file to begin.', 'success');
     } else {
       const credential = await signInWithEmailAndPassword(auth, email, password);
+      currentUser = credential.user;
       renderUser(credential.user);
       showCaseLibrary(credential.user);
       setMessage('Signed in. Choose a case file.', 'success');
