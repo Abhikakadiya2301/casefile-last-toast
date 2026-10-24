@@ -110,7 +110,7 @@
         <button data-view="mansion" class="nav-item locked"><span>05</span> Mansion <b>LOCKED</b></button>
         <button data-view="evidence" class="nav-item"><span>06</span> Evidence</button>
         <button data-view="board" class="nav-item locked"><span>07</span> Case Theory <b>LOCKED</b></button>
-        <button data-view="accuse" class="nav-item locked"><span>08</span> Accusation <b>LOCKED</b></button>
+        <button data-view="accuse" class="nav-item locked"><span>08</span> Confrontation <b>LOCKED</b></button>
       </nav>
 
       <div class="sidebar-footer">
@@ -318,54 +318,58 @@
 
         <section class="view" id="view-accuse">
           <div class="section-intro">
-            <div><p class="eyebrow">STEP 8 · FINAL ACCUSATION</p><h3>Build Your Case</h3></div>
-            <p>Name the killer, identify the motive and method, then support your accusation with evidence.</p>
+            <div><p class="eyebrow">STEP 8 · FINAL CONFRONTATION</p><h3>Put your theory under pressure.</h3></div>
+            <p>Your Step 07 theory is locked in. Confront the suspect with its weakest points before making the final accusation.</p>
           </div>
 
-          <div class="accuse-grid">
-            <form class="accuse-form panel" id="accuseForm">
-              <label>
-                <span>Who killed Adrian Blackwood?</span>
-                <select id="accusedSelect" required>
-                  <option value="">Choose a suspect</option>
-                </select>
-              </label>
-              <label>
-                <span>What was the motive?</span>
-                <select id="motiveSelect" required>
-                  <option value="">Choose a motive</option>
-                  <option value="inheritance">Inheritance dispute</option>
-                  <option value="blackmail">Personal blackmail</option>
-                  <option value="embezzlement">Hide financial embezzlement</option>
-                  <option value="revenge">Revenge for an old betrayal</option>
-                </select>
-              </label>
-              <label>
-                <span>How was he killed?</span>
-                <select id="methodSelect" required>
-                  <option value="">Choose a method</option>
-                  <option value="blade">Letter opener attack</option>
-                  <option value="toxin">Toxic agent introduced into his whiskey</option>
-                  <option value="medication">Medication mix-up</option>
-                  <option value="fall">Fatal fall staged in the study</option>
-                </select>
-              </label>
-
-              <fieldset>
-                <legend>Select three supporting clues</legend>
-                <div id="accusationEvidence" class="accusation-evidence"></div>
-              </fieldset>
-
-              <button class="danger-btn full" type="submit">Lock accusation</button>
-            </form>
-
-            <aside class="readiness panel">
-              <p class="eyebrow">CASE READINESS</p>
-              <div id="readinessRows"></div>
-              <div class="readiness-score">
-                <strong id="readinessScore">0%</strong>
-                <span>Ready to accuse</span>
+          <div class="confrontation-grid">
+            <article class="confrontation-stage panel">
+              <div class="confrontation-suspect">
+                <div class="confrontation-portrait-wrap">
+                  <img id="confrontationPortrait" class="confrontation-portrait" alt="">
+                  <span class="confrontation-status">INTERROGATION ROOM</span>
+                </div>
+                <div class="confrontation-identity">
+                  <p class="eyebrow">YOUR PRIME SUSPECT</p>
+                  <h3 id="confrontationName">Suspect</h3>
+                  <p id="confrontationRole" class="muted"></p>
+                </div>
               </div>
+
+              <div class="confrontation-opening" id="confrontationOpening"></div>
+
+              <div class="confrontation-actions" id="confrontationActions">
+                <button class="confrontation-move" type="button" data-final-confront="alibi">
+                  <span>01</span><strong>Break the alibi</strong><small>Challenge where they claim they were.</small>
+                </button>
+                <button class="confrontation-move" type="button" data-final-confront="motive">
+                  <span>02</span><strong>Expose the motive</strong><small>Press on what Adrian threatened to reveal.</small>
+                </button>
+                <button class="confrontation-move" type="button" data-final-confront="method">
+                  <span>03</span><strong>Challenge the method</strong><small>Force them to explain the physical evidence.</small>
+                </button>
+              </div>
+
+              <div class="confrontation-transcript" id="confrontationTranscript" aria-live="polite"></div>
+            </article>
+
+            <aside class="confrontation-case panel">
+              <p class="eyebrow">THEORY CARRIED FROM STEP 07</p>
+              <div id="confrontationTheory" class="confrontation-theory"></div>
+
+              <div class="divider"></div>
+              <p class="eyebrow">EVIDENCE ALREADY SUBMITTED</p>
+              <div id="confrontationEvidence" class="confrontation-evidence"></div>
+
+              <div class="divider"></div>
+              <div class="confrontation-progress">
+                <span>Confrontation progress</span>
+                <strong id="confrontationProgress">0/3</strong>
+              </div>
+              <div class="mini-track"><i id="confrontationProgressBar"></i></div>
+
+              <button id="lockAccusationBtn" class="danger-btn full" type="button" disabled>Complete all 3 challenges</button>
+              <button id="reviseTheoryBtn" class="text-btn full" type="button">← Revise Step 07 theory</button>
             </aside>
           </div>
         </section>
