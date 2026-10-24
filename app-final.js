@@ -47,7 +47,7 @@ const FINAL_RESPONSES={
 const SUSPECT_IMAGES={
   eleanor:"assets/Eleanor Blackwood.png",
   daniel:"assets/Daniel Blackwood.png",
-  maya:"assets/scenes/Mysterious Study Crime Scene Investigation.png",
+  maya:"assets/Dr. Maya Sen.png",
   victor:"assets/Victor Hale.png",
   thomas:"assets/Thomas Reed.png"
 };
