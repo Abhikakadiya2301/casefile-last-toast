@@ -39,7 +39,7 @@ document.body.insertAdjacentHTML('beforeend', `
     <div class="auth-modal-inner" id="authModalInner">
       <p class="eyebrow">CASEFILE ACCESS</p>
       <h3 id="authTitle">Welcome back, Detective</h3>
-      <p class="auth-subtitle" id="authSubtitle">Sign in to your CASEFILE account.</p>
+      <p class="auth-subtitle" id="authSubtitle">Sign in to access your case library.</p>
       <div class="auth-setup auth-hidden" id="authSetup">
         Authentication UI is ready, but Firebase is not connected yet. Add your Firebase Web App configuration to <code>firebase-config.js</code>.
       </div>
@@ -77,8 +77,13 @@ const signInTab = $('#authSignInTab');
 const signUpTab = $('#authSignUpTab');
 const submit = $('#authSubmit');
 const passwordInput = $('#authPassword');
+const accessLoading = $('#accessLoading');
+const accessSignedOut = $('#accessSignedOut');
+const caseLibrary = $('#caseLibrary');
+
 let mode = 'signin';
 let auth = null;
+let currentUser = null;
 
 function setMessage(text = '', type = '') {
   message.textContent = text;
@@ -95,10 +100,19 @@ function setMode(nextMode) {
   signUpTab.setAttribute('aria-selected', String(signup));
   submit.textContent = signup ? 'Create account' : 'Sign in';
   $('#authTitle').textContent = signup ? 'Join the investigation' : 'Welcome back, Detective';
-  $('#authSubtitle').textContent = signup ? 'Create an account to identify your detective profile.' : 'Sign in to your CASEFILE account.';
+  $('#authSubtitle').textContent = signup
+    ? 'Create an account, then choose a case file from your library.'
+    : 'Sign in to access your case library.';
   passwordInput.autocomplete = signup ? 'new-password' : 'current-password';
   $('#authResetPassword').classList.toggle('auth-hidden', signup);
   setMessage();
+}
+
+function openAuthModal(nextMode = 'signin') {
+  setMode(nextMode);
+  if (!firebaseConfigured) $('#authSetup').classList.remove('auth-hidden');
+  if (!modal.open) modal.showModal();
+  setTimeout(() => $('#authEmailInput').focus(), 50);
 }
 
 function friendlyError(error) {
@@ -128,29 +142,93 @@ function initials(user) {
   return parts.slice(0, 2).map(part => part[0]?.toUpperCase()).join('') || 'D';
 }
 
+function detectiveName(user) {
+  return user?.displayName || user?.email?.split('@')[0] || 'Detective';
+}
+
 function renderUser(user) {
   const signedIn = Boolean(user);
   $('#authOpenBtn').classList.toggle('auth-hidden', signedIn);
   $('#authUser').classList.toggle('auth-hidden', !signedIn);
   if (!signedIn) return;
   $('#authAvatar').textContent = initials(user);
-  $('#authDisplayName').textContent = user.displayName || user.email?.split('@')[0] || 'Detective';
+  $('#authDisplayName').textContent = detectiveName(user);
   $('#authEmail').textContent = user.email || '';
 }
 
-$('#authOpenBtn').addEventListener('click', () => {
-  setMode('signin');
-  if (!firebaseConfigured) $('#authSetup').classList.remove('auth-hidden');
-  modal.showModal();
-  setTimeout(() => $('#authEmailInput').focus(), 50);
-});
+function showSignedOutGate() {
+  document.body.classList.remove('access-pending', 'case-selection', 'case-active');
+  document.body.classList.add('access-required');
+  accessLoading.classList.add('auth-hidden');
+  accessSignedOut.classList.remove('auth-hidden');
+  caseLibrary.classList.add('auth-hidden');
+}
 
+function showCaseLibrary(user) {
+  document.body.classList.remove('access-pending', 'access-required', 'case-active');
+  document.body.classList.add('case-selection');
+  accessLoading.classList.add('auth-hidden');
+  accessSignedOut.classList.add('auth-hidden');
+  caseLibrary.classList.remove('auth-hidden');
+  $('#libraryDetectiveName').textContent = detectiveName(user);
+
+  if (typeof window.activateCasefileUser === 'function') {
+    window.activateCasefileUser(user.uid);
+  }
+}
+
+function openCase(caseId) {
+  if (!currentUser) {
+    showSignedOutGate();
+    openAuthModal('signin');
+    return;
+  }
+  if (caseId !== 'last-toast') return;
+
+  document.body.classList.remove('access-pending', 'access-required', 'case-selection');
+  document.body.classList.add('case-active');
+  if (typeof window.navigate === 'function') window.navigate('briefing');
+  if (typeof window.updateUI === 'function') window.updateUI();
+  window.dispatchEvent(new CustomEvent('casefile-case-selected', {
+    detail: { caseId, user: currentUser }
+  }));
+}
+
+async function handleSignOut() {
+  if (!auth) return;
+  try {
+    await signOut(auth);
+  } catch (error) {
+    console.error('CASEFILE sign out failed:', error);
+  }
+}
+
+$('#authOpenBtn').addEventListener('click', () => openAuthModal('signin'));
+$('#gateSignInBtn').addEventListener('click', () => openAuthModal('signin'));
+$('#gateCreateBtn').addEventListener('click', () => openAuthModal('signup'));
 $('#authModalClose').addEventListener('click', () => modal.close());
+
 modal.addEventListener('click', event => {
   if (event.target === modal) modal.close();
 });
 signInTab.addEventListener('click', () => setMode('signin'));
 signUpTab.addEventListener('click', () => setMode('signup'));
+
+$$('.case-open-btn').forEach(button => {
+  button.addEventListener('click', () => openCase(button.dataset.caseId));
+});
+
+$('#caseLibraryBtn')?.addEventListener('click', () => {
+  if (!currentUser) {
+    showSignedOutGate();
+    return;
+  }
+  showCaseLibrary(currentUser);
+  $('#sidebar')?.classList.remove('open');
+});
+
+$('#authSignOutBtn').addEventListener('click', handleSignOut);
+$('#librarySignOutBtn').addEventListener('click', handleSignOut);
 
 form.addEventListener('submit', async event => {
   event.preventDefault();
@@ -170,10 +248,13 @@ form.addEventListener('submit', async event => {
       const credential = await createUserWithEmailAndPassword(auth, email, password);
       if (name) await updateProfile(credential.user, { displayName: name });
       renderUser(credential.user);
-      setMessage('Account created. Welcome to the case.', 'success');
+      showCaseLibrary(credential.user);
+      setMessage('Account created. Choose a case file to begin.', 'success');
     } else {
-      await signInWithEmailAndPassword(auth, email, password);
-      setMessage('Signed in.', 'success');
+      const credential = await signInWithEmailAndPassword(auth, email, password);
+      renderUser(credential.user);
+      showCaseLibrary(credential.user);
+      setMessage('Signed in. Choose a case file.', 'success');
     }
     form.reset();
     setTimeout(() => modal.close(), 450);
@@ -204,28 +285,28 @@ $('#authResetPassword').addEventListener('click', async () => {
   }
 });
 
-$('#authSignOutBtn').addEventListener('click', async () => {
-  if (!auth) return;
-  try {
-    await signOut(auth);
-  } catch (error) {
-    console.error('CASEFILE sign out failed:', error);
-  }
-});
-
 if (firebaseConfigured) {
   try {
     const app = initializeApp(firebaseConfig);
     auth = getAuth(app);
     await setPersistence(auth, browserLocalPersistence);
     onAuthStateChanged(auth, user => {
+      currentUser = user;
       renderUser(user);
-      window.dispatchEvent(new CustomEvent('casefile-auth-change', { detail: { user } }));
+
+      if (user) showCaseLibrary(user);
+      else showSignedOutGate();
+
+      window.dispatchEvent(new CustomEvent('casefile-auth-change', {
+        detail: { user }
+      }));
     });
   } catch (error) {
     console.error('CASEFILE Firebase initialization failed:', error);
     $('#authSetup').classList.remove('auth-hidden');
+    showSignedOutGate();
   }
 } else {
   renderUser(null);
+  showSignedOutGate();
 }
