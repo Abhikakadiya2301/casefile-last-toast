@@ -5,7 +5,7 @@
     suspects: {
       'Eleanor Blackwood': 'assets/Eleanor Blackwood.png',
       'Daniel Blackwood': 'assets/Daniel Blackwood.png',
-      'Dr. Maya Sen': 'assets/scenes/Mysterious Study Crime Scene Investigation.png',
+      'Dr. Maya Sen': 'assets/Dr. Maya Sen.png',
       'Victor Hale': 'assets/Victor Hale.png',
       'Thomas Reed': 'assets/Thomas Reed.png'
     },
