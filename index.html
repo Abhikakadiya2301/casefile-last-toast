@@ -10,8 +10,74 @@
   <link rel="stylesheet" href="images.css" />
   <link rel="stylesheet" href="auth.css" />
 </head>
-<body>
+<body class="access-pending">
   <div class="grain" aria-hidden="true"></div>
+
+  <div class="access-gate" id="accessGate">
+    <div class="access-shell">
+      <header class="access-brand">
+        <div class="brand-mark">C</div>
+        <div>
+          <p class="eyebrow">BLACKWOOD POLICE ARCHIVE</p>
+          <h1>CASEFILE</h1>
+        </div>
+      </header>
+
+      <section class="access-state" id="accessLoading">
+        <p class="eyebrow">SECURE ACCESS</p>
+        <h2>Verifying detective credentials…</h2>
+        <p>Your case files will appear after authentication is confirmed.</p>
+      </section>
+
+      <section class="access-state auth-hidden" id="accessSignedOut">
+        <p class="eyebrow">SECURE ACCESS REQUIRED</p>
+        <h2>Sign in before opening a case file.</h2>
+        <p>Every investigation is tied to a detective account. Sign in or create an account to continue.</p>
+        <div class="access-actions">
+          <button class="primary-btn" id="gateSignInBtn" type="button">Sign in</button>
+          <button class="ghost-btn" id="gateCreateBtn" type="button">Create account</button>
+        </div>
+      </section>
+
+      <section class="case-library auth-hidden" id="caseLibrary">
+        <div class="case-library-head">
+          <div>
+            <p class="eyebrow">DETECTIVE CASE LIBRARY</p>
+            <h2>Select a case file</h2>
+            <p>Signed in as <strong id="libraryDetectiveName">Detective</strong>. Choose an investigation to open.</p>
+          </div>
+          <button class="auth-signout library-signout" id="librarySignOutBtn" type="button">Sign out</button>
+        </div>
+
+        <div class="case-library-grid">
+          <article class="case-file-card available">
+            <div class="case-file-visual">
+              <img src="assets/image-gen-4.png" alt="Blackwood Manor at night">
+              <span class="case-file-status">AVAILABLE</span>
+            </div>
+            <div class="case-file-copy">
+              <p class="eyebrow">CASE 24-117 · HOMICIDE</p>
+              <h3>The Last Toast</h3>
+              <p>Adrian Blackwood is dead inside his study. Five people in the manor have reasons to lie.</p>
+              <div class="case-file-meta"><span>Blackwood Manor</span><span>5 suspects</span></div>
+              <button class="primary-btn full case-open-btn" type="button" data-case-id="last-toast">Open case file <span>→</span></button>
+            </div>
+          </article>
+
+          <article class="case-file-card coming-soon" aria-disabled="true">
+            <div class="case-file-placeholder"><span>02</span></div>
+            <div class="case-file-copy">
+              <p class="eyebrow">NEW CASE FILE</p>
+              <h3>Classified</h3>
+              <p>Additional investigations will appear here as they are released.</p>
+              <button class="ghost-btn full" type="button" disabled>Coming soon</button>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+  </div>
+
   <div id="app">
     <aside class="sidebar" id="sidebar">
       <div class="brand">
@@ -48,6 +114,7 @@
       </nav>
 
       <div class="sidebar-footer">
+        <button id="caseLibraryBtn" class="ghost-btn">← Case files</button>
         <button id="hintBtn" class="ghost-btn">Consult Detective <span id="hintCount">3</span></button>
         <button id="resetBtn" class="text-btn">Reset case</button>
       </div>
