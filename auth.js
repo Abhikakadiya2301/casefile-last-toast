@@ -70,7 +70,7 @@ document.body.insertAdjacentHTML('beforeend', `
   </dialog>`);
 
 const $ = selector => document.querySelector(selector);
-const $ = selector => [...document.querySelectorAll(selector)];
+const $$ = selector => [...document.querySelectorAll(selector)];
 const modal = $('#authModal');
 const form = $('#authForm');
 const message = $('#authMessage');
