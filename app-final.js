@@ -89,7 +89,7 @@ $("#hintBtn").onclick=()=>{
 
 $("#resetBtn").onclick=()=>{
   if(confirm("Reset all CASEFILE progress on this device?")){
-    localStorage.removeItem("casefile-state");state={...defaultState,sceneSeen:[],roomsSearched:[],interviewed:[],reportsRead:[],deductions:[],caseTheory:{accused:"",motive:"",method:"",evidence:[],validated:false},collected:[],activities:[defaultState.activities[0]]};boardSelected=[];navigate("briefing");updateUI();
+    clearCaseState();state=freshDefaultState();boardSelected=[];navigate("briefing");updateUI();
   }
 };
 
