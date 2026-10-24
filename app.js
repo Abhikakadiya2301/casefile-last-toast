@@ -91,14 +91,70 @@ let revealIndex = 0;
 const $ = sel => document.querySelector(sel);
 const $$ = sel => [...document.querySelectorAll(sel)];
 
+function freshDefaultState(){
+  return {
+    ...defaultState,
+    sceneSeen:[],
+    roomsSearched:[],
+    interviewed:[],
+    reportsRead:[],
+    deductions:[],
+    caseTheory:{...defaultState.caseTheory,evidence:[]},
+    collected:[],
+    activities:[defaultState.activities[0]]
+  };
+}
+
+function caseStorageKey(uid=window.casefileAuthUid){
+  return uid ? `casefile-state:${uid}:last-toast` : null;
+}
+
 function loadState(){
+  const key=caseStorageKey();
+  if(!key) return freshDefaultState();
   try{
-    return {...defaultState, ...JSON.parse(localStorage.getItem("casefile-state")||"{}")};
-  }catch{ return {...defaultState}; }
+    const saved=JSON.parse(localStorage.getItem(key)||"{}");
+    return {
+      ...freshDefaultState(),
+      ...saved,
+      caseTheory:{...defaultState.caseTheory,...(saved.caseTheory||{}),evidence:[...(saved.caseTheory?.evidence||[])]}
+    };
+  }catch{
+    return freshDefaultState();
+  }
 }
+
 function saveState(){
-  localStorage.setItem("casefile-state", JSON.stringify(state));
+  const key=caseStorageKey();
+  if(!key) return;
+  localStorage.setItem(key, JSON.stringify(state));
 }
+
+function clearCaseState(){
+  const key=caseStorageKey();
+  if(key) localStorage.removeItem(key);
+}
+
+function activateCasefileUser(uid){
+  if(!uid) return;
+  window.casefileAuthUid=uid;
+
+  const key=caseStorageKey(uid);
+  const legacyKey="casefile-state";
+  const legacyState=localStorage.getItem(legacyKey);
+  if(!localStorage.getItem(key) && legacyState){
+    localStorage.setItem(key,legacyState);
+    localStorage.removeItem(legacyKey);
+  }
+
+  state=loadState();
+  state.reportsRead=state.reportsRead.filter(id=>DATA.reports.some(report=>report.id===id));
+  boardSelected=Array.isArray(state.caseTheory?.evidence)?[...state.caseTheory.evidence]:[];
+  currentView="briefing";
+
+  if(typeof updateUI==="function") updateUI();
+}
+window.activateCasefileUser=activateCasefileUser;
 function addActivity(text){
   state.activities.unshift(text);
   state.activities = state.activities.slice(0,12);
