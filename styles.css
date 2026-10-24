@@ -66,7 +66,7 @@ button{cursor:pointer}
 @keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 .hero{margin-bottom:24px}
 .hero-image{height:520px;border:1px solid var(--line);border-radius:22px;overflow:hidden;position:relative;background:radial-gradient(circle at 70% 20%,#2a2f38 0,#10131a 34%,#07090c 76%)}
-.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,8,11,.95) 0%,rgba(7,9,12,.78) 42%,rgba(9,12,16,.16) 80%),linear-gradient(0deg,rgba(9,11,14,.68),transparent 50%),url("assets/blackwood-manor.jpg") center center/cover no-repeat}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,8,11,.95) 0%,rgba(7,9,12,.78) 42%,rgba(9,12,16,.16) 80%),linear-gradient(0deg,rgba(9,11,14,.68),transparent 50%),url("assets/blackwood-manor.png") center center/cover no-repeat}
 .hero-copy{position:absolute;left:58px;top:50%;transform:translateY(-50%);max-width:520px;z-index:2}
 .hero-copy h3{font:500 clamp(52px,6.5vw,100px)/.82 Georgia,serif;letter-spacing:-.055em;margin:12px 0 24px;text-shadow:0 12px 50px #000}
 .hero-copy p:not(.eyebrow){color:#c8c8c6;line-height:1.7;max-width:480px}
