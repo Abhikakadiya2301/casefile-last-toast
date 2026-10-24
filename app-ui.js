@@ -16,7 +16,7 @@ function phase(){
   if(d.reports<1) return [4,"Review Forensic Reports"];
   if(d.rooms<.5) return [5,"Search the Manor"];
   if(!d.theory) return [7,"Build Your Theory"];
-  if(!d.completed) return [8,"Make Your Accusation"];
+  if(!d.completed) return [8,"Final Confrontation"];
   return [8,"Case Closed"];
 }
 function unlocks(){
@@ -38,7 +38,7 @@ function objective(){
   if(d.reports<1) return ["Review the forensic reports","Forensics has returned the Toxicology Report and Latent Print Report. Review both before continuing the scene search.",DATA.reports.map(r=>`Review ${r.title}`),DATA.reports.map(r=>state.reportsRead.includes(r.id))];
   if(d.rooms<.5) return ["Search the manor","Use the suspect statements and forensic findings to test rooms, records, and objects around Blackwood Manor.",["Search 3 rooms","Collect 6 clues"],[state.roomsSearched.length>=3,state.collected.length>=6]];
   if(!d.theory) return ["Build your case theory","Choose who killed Adrian, the motive, and the method, then support the theory with exactly three pieces of evidence.",["Name the suspect","Choose the motive","Choose the method","Select 3 supporting clues"],[Boolean(state.caseTheory?.accused),Boolean(state.caseTheory?.motive),Boolean(state.caseTheory?.method),(state.caseTheory?.evidence||[]).length===3]];
-  if(!d.completed) return ["Build your accusation","Your supported case theory is ready. Submit the final accusation and close the case.",["Submit your final accusation"],[false]];
+  if(!d.completed) return ["Confront your suspect","Your theory is locked. Challenge the suspect on alibi, motive, and method before you make the final accusation.",["Break the alibi","Expose the motive","Challenge the method","Lock accusation"],[...( ["alibi","motive","method"].map(x=>(state.finalConfrontation||[]).includes(x)) ),false]];
   return ["Case closed","You reconstructed the murder of Adrian Blackwood.",["Review the final case file"],[true]];
 }
 
@@ -99,7 +99,7 @@ function navigate(view){
   $$(".view").forEach(v=>v.classList.remove("active"));
   $(`#view-${view}`).classList.add("active");
   $$(".nav-item").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
-  const titles={briefing:"The Last Toast",scene:"Crime Scene",mansion:"Blackwood Manor",suspects:"Suspect Interviews",evidence:"Evidence Locker",reports:"Forensic Reports",board:"Build Your Theory",accuse:"Final Accusation"};
+  const titles={briefing:"The Last Toast",scene:"Crime Scene",mansion:"Blackwood Manor",suspects:"Suspect Interviews",evidence:"Evidence Locker",reports:"Forensic Reports",board:"Build Your Theory",accuse:"Final Confrontation"};
   $("#viewTitle").textContent=titles[view]||"CASEFILE";
   $("#sidebar").classList.remove("open");
   if(sceneSynced) updateUI();
