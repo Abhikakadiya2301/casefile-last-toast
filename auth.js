@@ -70,6 +70,7 @@ document.body.insertAdjacentHTML('beforeend', `
   </dialog>`);
 
 const $ = selector => document.querySelector(selector);
+const $ = selector => [...document.querySelectorAll(selector)];
 const modal = $('#authModal');
 const form = $('#authForm');
 const message = $('#authMessage');
@@ -157,6 +158,7 @@ function renderUser(user) {
 }
 
 function showSignedOutGate() {
+  window.casefileAuthUid = null;
   document.body.classList.remove('access-pending', 'case-selection', 'case-active');
   document.body.classList.add('access-required');
   accessLoading.classList.add('auth-hidden');
