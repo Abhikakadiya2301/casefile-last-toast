@@ -184,3 +184,19 @@
   #reportGrid.report-grid{grid-template-columns:1fr}
   .report-image-art{max-height:72vh}
 }
+
+
+/* Fluid artwork sizing */
+.room-card{min-height:clamp(290px,32vw,360px)}
+.clue-scene-wrap{height:auto;aspect-ratio:16/9;min-height:220px}
+#reportGrid.report-grid{grid-template-columns:repeat(2,minmax(0,1fr));width:100%}
+.evidence-lightbox{height:100dvh}
+@media(max-width:900px){
+  #reportGrid.report-grid{grid-template-columns:1fr}
+  .modal-suspect-art{max-width:40vw}
+}
+@media(max-width:620px){
+  .room-card{min-height:clamp(300px,86vw,350px)}
+  .clue-scene-wrap{min-height:0}
+  .modal-suspect-art{max-width:100%}
+}
